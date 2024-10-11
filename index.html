@@ -398,19 +398,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-// Sample DevLog entries
-const devlogEntries = [
-  {
-    date: '05/10/2024',
-    title: 'Mise à jour du site',
-    content: 'Ajoût de la section "DevLog".'
-  },
-  {
-    date: '05/10/2024',
-    title: 'Divers changement',
-    content: 'Début de la refonte de l'
-  },
-];
+  <section id="devlog" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center mb-5">DevLog</h2>
+    <div class="row" id="devlog-entries">
+      <div class="col-lg-6 mb-4">
+        <div class="devlog-entry">
+          <div class="devlog-date">05/10/2024</div>
+          <h3 class="devlog-title">Divers changement</h3>
+          <p class="devlog-content">Refonte de l'intro du jeu et début du montage d'un potentiel nouveau trailer...</p>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <div class="devlog-entry">
+          <div class="devlog-date">05/10/2024</div>
+          <h3 class="devlog-title">Mise à jour du site</h3>
+          <p class="devlog-content">Ajoût de la section "DevLog" sur le site. Vous pourrez suivre ici toutes les avancées du développement du jeu.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 // Function to create DevLog entries
 function createDevLogEntries() {
