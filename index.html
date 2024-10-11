@@ -9,15 +9,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-<html><head><base href="https://668d2bfe5c6d8.site123.me/">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<title>Pokémon Stalactite</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
 :root {
   --primary-color: #3498db;
   --secondary-color: #2ecc71;
@@ -106,14 +97,28 @@ body {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 25px;
-    padding: 10px 25px;
+    border-radius: 30px;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-custom:hover {
     background-color: var(--secondary-color);
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-custom i {
+    margin-left: 10px;
+    font-size: 1.2rem;
 }
 
 .social-icon {
@@ -195,7 +200,10 @@ body {
   <div class="container text-center">
     <h1 class="display-1 mb-4 fw-bold">Pokémon Stalactite</h1>
     <p class="lead mb-5">Plongez dans la petite région de Citados en compagnie de vos Pokémon...</p>
-    <a href="#about" class="btn btn-custom btn-lg">Découvrir l'aventure</a>
+    <a href="#about" class="btn btn-custom btn-lg">
+        Découvrir l'aventure
+        <i class="fas fa-chevron-right"></i>
+    </a>
   </div>
 </header>
 
@@ -208,7 +216,7 @@ body {
       </div>
       <div class="col-lg-6 mt-4 mt-lg-0">
         <p class="lead">Pokémon Stalactite est un fangame français développé sous <strong>PSDK</strong> et <strong>Pokémon Studio</strong>, qui a pour but de <strong>satisfaire</strong> les fans de cette licence en leur offrant une expérience de jeu inoubliable.</p>
-        <p><em>Spoiler</em> : notamment au Chapitre 2 <em>(qui n'est pas encore sorti).</em></p>
+        <p><em>Spoiler</em> : notamment au Chapitre 1 <em>(qui n'est pas encore sorti).</em></p>
         <p>Ce fangame est toujours <strong>en cours de développement</strong>, créé indépendamment par Yusiki.</p>
         <p>Pokémon Stalactite est un projet <strong>non lucratif</strong> et <strong>non affilié</strong> à Game Freak et Nintendo.</p>
       </div>
@@ -331,16 +339,16 @@ body {
     <div class="row" id="devlog-entries">
       <div class="col-lg-6 mb-4">
         <div class="devlog-entry">
-          <div class="devlog-date">05/10/2024</div>
-          <h3 class="devlog-title">Divers changements</h3>
-          <p class="devlog-content">Refonte de l'intro du jeu en cours. Début du montage d'un potentiel nouveau trailer...</p>
+          <div class="devlog-date">2024-03-15</div>
+          <h3 class="devlog-title">Mise à jour du système de combat</h3>
+          <p class="devlog-content">Nous avons implémenté de nouvelles animations pour les attaques spéciales des starters.</p>
         </div>
       </div>
       <div class="col-lg-6 mb-4">
         <div class="devlog-entry">
-          <div class="devlog-date">05/10/2024</div>
-          <h3 class="devlog-title">Mise à jour du site</h3>
-          <p class="devlog-content">Ajout de la section "DevLog" sur le site.</p>
+          <div class="devlog-date">2024-03-10</div>
+          <h3 class="devlog-title">Nouvelle zone explorée</h3>
+          <p class="devlog-content">La conception de la Grotte Glaciale est terminée. Les joueurs pourront bientôt l'explorer!</p>
         </div>
       </div>
     </div>
@@ -375,7 +383,7 @@ body {
     <div class="row align-items-center">
       <div class="col-md-6">
         <h5 class="mb-0">Pokémon Stalactite</h5>
-        <p class="mb-0">© Pokémon Stalactite, Yusiki, 2024</p>
+        <p class="mb-0">Copyright © Pokémon Stalactite, Yusiki, 2024</p>
         <p class="mb-0">Projet non lucratif et affilié à Nintendo</p>
       </div>
       <div class="col-md-6 text-md-end">
@@ -412,11 +420,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+// Sample DevLog entries
 const devlogEntries = [
   {
-    date: '11/10/2024',
-    title: 'Mise à jour du site',
-    content: 'Ajout de la section "Réseaux" sur le site. Rejoignez-les pour ne manquer aucune info !'
+    date: '2024-03-15',
+    title: 'Mise à jour du système de combat',
+    content: 'Nous avons implémenté de nouvelles animations pour les attaques spéciales des starters.'
+  },
+  {
+    date: '2024-03-10',
+    title: 'Nouvelle zone explorée',
+    content: 'La conception de la Grotte Glaciale est terminée. Les joueurs pourront bientôt l\'explorer!'
   },
 ];
 
