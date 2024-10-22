@@ -40,22 +40,31 @@ body {
     color: var(--dark-color) !important;
 }
 
-.chat-message {
-    padding: 10px;
-    border-radius: 10px;
-    margin: 5px 0;
-}
+.chat-container {
+            max-height: 400px; /* Limite la hauteur du chat */
+            overflow-y: auto; /* Ajoute le défilement vertical */
+            margin-top: 20px; /* Ajout d'un peu d'espace en haut */
+            border: 1px solid var(--primary-color); /* Bordure pour délimiter le chat */
+            border-radius: 10px;
+            padding: 10px;
+            background-color: white;
+        }
 
-.chat-message.user {
-    background-color: #d1e7dd; /* Couleur de fond pour les messages de l'utilisateur */
-    align-self: flex-end; /* Aligne les messages de l'utilisateur à droite */
-}
+        .chat-message {
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+        }
 
-.chat-message.other {
-    background-color: #f8d7da; /* Couleur de fond pour les messages des autres */
-    align-self: flex-start; /* Aligne les messages des autres à gauche */
-}
+        .chat-message.user {
+            background-color: #d1e7dd; /* Couleur de fond pour les messages de l'utilisateur */
+            align-self: flex-end; /* Aligne les messages de l'utilisateur à droite */
+        }
 
+        .chat-message.other {
+            background-color: #f8d7da; /* Couleur de fond pour les messages des autres */
+            align-self: flex-start; /* Aligne les messages des autres à gauche */
+        }
   
 .nav-link::after {
     content: '';
@@ -404,59 +413,70 @@ body {
   </div>
 </section>
 
+<section id="public-chat" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Public Chat</h2>
+        <div class="chat-container" id="chat-box"></div>
+        <form id="chat-form" class="mt-3">
+            <div class="input-group">
+                <input type="text" id="message-input" class="form-control" placeholder="Entrez votre message..." required>
+                <button class="btn btn-primary" type="submit">Envoyer</button>
+            </div>
+        </form>
+    </div>
+</section>
+
 <!-- Ajoutez ce script dans le body de votre HTML -->
 <script src="https://public-chat-stalactite.onrender.com/socket.io/socket.io.js"></script>
-
 <script>
-  const socket = io('https://public-chat-stalactite.onrender.com');
-  const chatBox = document.getElementById('chat-box');
-  const chatForm = document.getElementById('chat-form');
-  const messageInput = document.getElementById('message-input');
+    const socket = io('https://public-chat-stalactite.onrender.com');
+    const chatBox = document.getElementById('chat-box');
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message-input');
 
-  let pseudo = null;  // Initialisation du pseudo à null
+    let pseudo = null; // Initialisation du pseudo à null
 
-  // Ajouter les anciens messages (historique)
-  socket.on('chat-history', (messages) => {
-    messages.forEach((msg) => {
-      addMessageToChat(msg.pseudo, msg.message);
+    // Ajouter les anciens messages (historique)
+    socket.on('chat-history', (messages) => {
+        messages.forEach((msg) => {
+            addMessageToChat(msg.pseudo, msg.message);
+        });
     });
-  });
 
-  // Ajouter un nouveau message quand il est reçu
-  socket.on('chat-message', ({ pseudo, message }) => {
-    addMessageToChat(pseudo, message);
-  });
+    // Ajouter un nouveau message quand il est reçu
+    socket.on('chat-message', ({ pseudo, message }) => {
+        addMessageToChat(pseudo, message);
+    });
 
-  // Envoi d'un message
-  chatForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Si le pseudo n'a pas encore été saisi, demander à l'utilisateur de l'entrer
-    if (!pseudo) {
-      pseudo = prompt('Entrez votre pseudo :');
-      if (!pseudo) {
-        alert('Le pseudo est requis pour envoyer un message.');
-        return;
-      }
+    // Envoi d'un message
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Si le pseudo n'a pas encore été saisi, demander à l'utilisateur de l'entrer
+        if (!pseudo) {
+            pseudo = prompt('Entrez votre pseudo :');
+            if (!pseudo) {
+                alert('Le pseudo est requis pour envoyer un message.');
+                return;
+            }
+        }
+
+        const message = messageInput.value;
+        if (message.trim()) {
+            // Envoyer le message avec le pseudo
+            socket.emit('chat-message', { pseudo, message });
+            messageInput.value = ''; // Effacer le champ de texte
+        }
+    });
+
+    function addMessageToChat(pseudo, message) {
+        const msgElement = document.createElement('div');
+        msgElement.classList.add('chat-message', pseudo === pseudo ? 'user' : 'other'); // Ajoutez la classe appropriée
+        msgElement.textContent = `${pseudo}: ${message}`;
+        chatBox.appendChild(msgElement);
+        msgElement.scrollIntoView({ behavior: 'smooth' }); // Scroll automatique vers le bas
     }
-
-    const message = messageInput.value;
-    if (message.trim()) {
-      // Envoyer le message avec le pseudo
-      socket.emit('chat-message', { pseudo, message });
-      messageInput.value = ''; // Effacer le champ de texte
-    }
-  });
-
-  function addMessageToChat(pseudo, message) {
-    const msgElement = document.createElement('div');
-    msgElement.classList.add('chat-message', pseudo === pseudo ? 'user' : 'other'); // Ajoutez la classe appropriée
-    msgElement.textContent = `${pseudo}: ${message}`;
-    chatBox.appendChild(msgElement);
-    msgElement.scrollIntoView({ behavior: 'smooth' }); // Scroll automatique vers le bas
-  }
 </script>
-
 
 <footer class="bg-dark text-white py-4">
   <div class="container">
