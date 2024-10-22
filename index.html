@@ -404,20 +404,7 @@ body {
   </div>
 </section>
 
-<section id="public-chat" class="py-5">
-  <div class="container">
-    <h2 class="section-title text-center mb-5">Public Chat</h2>
-    <div id="chat-box" class="border p-3 mb-4" style="height: 300px; overflow-y: scroll; background-color: #f9f9f9;">
-      <!-- Les messages seront ajoutés ici dynamiquement -->
-    </div>
-    <form id="chat-form" class="d-flex">
-      <input type="text" id="message-input" class="form-control me-2" placeholder="Entrez un message public..." required>
-      <button type="submit" class="btn btn-primary">Envoyer</button>
-    </form>
-  </div>
-</section>
-
-<!-- Script pour charger Socket.io depuis ton backend sur Render -->
+<!-- Ajoutez ce script dans le body de votre HTML -->
 <script src="https://public-chat-stalactite.onrender.com/socket.io/socket.io.js"></script>
 
 <script>
@@ -461,13 +448,14 @@ body {
     }
   });
 
-function addMessageToChat(pseudo, message) {
+  function addMessageToChat(pseudo, message) {
     const msgElement = document.createElement('div');
     msgElement.classList.add('chat-message', pseudo === pseudo ? 'user' : 'other'); // Ajoutez la classe appropriée
     msgElement.textContent = `${pseudo}: ${message}`;
     chatBox.appendChild(msgElement);
     msgElement.scrollIntoView({ behavior: 'smooth' }); // Scroll automatique vers le bas
-}
+  }
+</script>
 
 
 <footer class="bg-dark text-white py-4">
