@@ -416,7 +416,7 @@ body {
 <section id="public-chat" class="py-5 bg-light">
     <div class="container">
         <h2 class="section-title text-center mb-5">Public Chat</h2>
-        <div class="chat-container" id="chat-box"></div>
+        <div class="chat-container" id="chat-box" style="max-height: 400px; overflow-y: auto;"></div>
         <form id="chat-form" class="mt-3">
             <div class="input-group">
                 <input type="text" id="message-input" class="form-control" placeholder="Entrez votre message..." required>
@@ -471,12 +471,13 @@ body {
 
     function addMessageToChat(pseudo, message) {
         const msgElement = document.createElement('div');
-        msgElement.classList.add('chat-message', pseudo === pseudo ? 'user' : 'other'); // Ajoutez la classe appropriée
+        msgElement.classList.add('chat-message'); // Classe commune pour tous les messages
         msgElement.textContent = `${pseudo}: ${message}`;
         chatBox.appendChild(msgElement);
         msgElement.scrollIntoView({ behavior: 'smooth' }); // Scroll automatique vers le bas
     }
 </script>
+
 
 <footer class="bg-dark text-white py-4">
   <div class="container">
