@@ -387,59 +387,63 @@ body {
   </div>
 </section>
 
-  <section id="public-chat" class="py-5">
+<section id="public-chat" class="py-5">
   <div class="container">
     <h2 class="section-title text-center mb-5">Public Chat</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-body">
-            <div id="chat-messages" style="height: 300px; overflow-y: scroll; background-color: #f1f1f1; border: 1px solid #ddd; padding: 10px; border-radius: 10px;">
-              <!-- Messages will be appended here -->
-            </div>
-            <div class="mt-3">
-              <input type="text" id="message-input" class="form-control" placeholder="Entrez un message publique...">
-              <button class="btn btn-primary mt-2" id="send-message-btn">Envoyer</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div id="chat-box" class="border p-3 mb-4" style="height: 300px; overflow-y: scroll; background-color: #f9f9f9;">
+      <!-- Les messages seront ajoutés ici dynamiquement -->
     </div>
+    <form id="chat-form" class="d-flex">
+      <input type="text" id="message-input" class="form-control me-2" placeholder="Entrez un message public..." required>
+      <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
   </div>
 </section>
 
+<!-- Script pour charger Socket.io depuis ton backend sur Render -->
+<script src="https://public-chat-stalactite.onrender.com/socket.io/socket.io.js"></script>
+
 <script>
-document.addEventListener('DOMContentLoaded', (event) => {
+  // Connexion à ton serveur Socket.io hébergé sur Render
+  const socket = io('https://public-chat-stalactite.onrender.com');
+
+  const chatBox = document.getElementById('chat-box');
+  const chatForm = document.getElementById('chat-form');
   const messageInput = document.getElementById('message-input');
-  const chatMessages = document.getElementById('chat-messages');
-  const sendMessageBtn = document.getElementById('send-message-btn');
 
-  // Function to append a message to the chat
-  function appendMessage(pseudo, message) {
-    const messageElement = document.createElement('div');
-    messageElement.innerHTML = `<strong>${pseudo}</strong>: ${message}`;
-    chatMessages.appendChild(messageElement);
-    chatMessages.scrollTop = chatMessages.scrollHeight;  // Auto-scroll to the latest message
-  }
+  // Demander un pseudo avant d'envoyer un message
+  let pseudo = prompt('Entrez votre pseudo :');
 
-  // Prompt for pseudo and send message
-  sendMessageBtn.addEventListener('click', () => {
-    const message = messageInput.value.trim();
-    if (message !== '') {
-      const pseudo = prompt("Sous quel pseudo voulez-vous apparaître ?");
-      if (pseudo && pseudo.trim() !== '') {
-        appendMessage(pseudo, message);
-        messageInput.value = '';  // Clear input after sending
-      } else {
-        alert('Veuillez entrer un pseudo valide.');
-      }
-    } else {
-      alert('Veuillez entrer un message avant d\'envoyer.');
+  // Ajouter les anciens messages (historique)
+  socket.on('chat-history', (messages) => {
+    messages.forEach((msg) => {
+      addMessageToChat(msg.pseudo, msg.message);
+    });
+  });
+
+  // Ajouter un nouveau message quand il est reçu
+  socket.on('chat-message', ({ pseudo, message }) => {
+    addMessageToChat(pseudo, message);
+  });
+
+  // Envoi d'un message
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = messageInput.value;
+    if (message.trim()) {
+      socket.emit('chat-message', { pseudo, message });
+      messageInput.value = ''; // Effacer le champ de texte
     }
   });
-});
-</script>
 
+  // Fonction pour ajouter un message dans la boîte de chat
+  function addMessageToChat(pseudo, message) {
+    const msgElement = document.createElement('div');
+    msgElement.textContent = `${pseudo}: ${message}`;
+    chatBox.appendChild(msgElement);
+    chatBox.scrollTop = chatBox.scrollHeight; // Scroll automatique vers le bas
+  }
+</script>
 
 <footer class="bg-dark text-white py-4">
   <div class="container">
