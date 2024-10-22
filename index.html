@@ -40,6 +40,23 @@ body {
     color: var(--dark-color) !important;
 }
 
+.chat-message {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+.chat-message.user {
+    background-color: #d1e7dd; /* Couleur de fond pour les messages de l'utilisateur */
+    align-self: flex-end; /* Aligne les messages de l'utilisateur à droite */
+}
+
+.chat-message.other {
+    background-color: #f8d7da; /* Couleur de fond pour les messages des autres */
+    align-self: flex-start; /* Aligne les messages des autres à gauche */
+}
+
+  
 .nav-link::after {
     content: '';
     position: absolute;
@@ -444,14 +461,13 @@ body {
     }
   });
 
-  // Fonction pour ajouter un message dans la boîte de chat
-  function addMessageToChat(pseudo, message) {
+function addMessageToChat(pseudo, message) {
     const msgElement = document.createElement('div');
+    msgElement.classList.add('chat-message', pseudo === pseudo ? 'user' : 'other'); // Ajoutez la classe appropriée
     msgElement.textContent = `${pseudo}: ${message}`;
     chatBox.appendChild(msgElement);
-    chatBox.scrollTop = chatBox.scrollHeight; // Scroll automatique vers le bas
-  }
-</script>
+    msgElement.scrollIntoView({ behavior: 'smooth' }); // Scroll automatique vers le bas
+}
 
 
 <footer class="bg-dark text-white py-4">
