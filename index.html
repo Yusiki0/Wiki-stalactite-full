@@ -404,15 +404,12 @@ body {
 <script src="https://public-chat-stalactite.onrender.com/socket.io/socket.io.js"></script>
 
 <script>
-  // Connexion à ton serveur Socket.io hébergé sur Render
   const socket = io('https://public-chat-stalactite.onrender.com');
-
   const chatBox = document.getElementById('chat-box');
   const chatForm = document.getElementById('chat-form');
   const messageInput = document.getElementById('message-input');
 
-  // Demander un pseudo avant d'envoyer un message
-  let pseudo = prompt('Entrez votre pseudo :');
+  let pseudo = null;  // Initialisation du pseudo à null
 
   // Ajouter les anciens messages (historique)
   socket.on('chat-history', (messages) => {
@@ -429,8 +426,19 @@ body {
   // Envoi d'un message
   chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    
+    // Si le pseudo n'a pas encore été saisi, demander à l'utilisateur de l'entrer
+    if (!pseudo) {
+      pseudo = prompt('Entrez votre pseudo :');
+      if (!pseudo) {
+        alert('Le pseudo est requis pour envoyer un message.');
+        return;
+      }
+    }
+
     const message = messageInput.value;
     if (message.trim()) {
+      // Envoyer le message avec le pseudo
       socket.emit('chat-message', { pseudo, message });
       messageInput.value = ''; // Effacer le champ de texte
     }
@@ -444,6 +452,7 @@ body {
     chatBox.scrollTop = chatBox.scrollHeight; // Scroll automatique vers le bas
   }
 </script>
+
 
 <footer class="bg-dark text-white py-4">
   <div class="container">
