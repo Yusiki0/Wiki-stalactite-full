@@ -36,16 +36,25 @@ io.on('connection', (socket) => {
   // Envoyer l'historique des messages au nouvel utilisateur
   socket.emit('chat-history', chatHistory);
 
+  // Réception du pseudo
+  socket.on('set-username', (username) => {
+    socket.username = username;  // Sauvegarder le pseudo
+  });
+
   // Réception d'un message de chat
   socket.on('chat-message', (data) => {
-    // Enregistrer le message dans l'historique
-    chatHistory.push(data);
+    // Enregistrer le message avec le pseudo
+    const messageData = {
+      username: data.username || socket.username, // Si pas de pseudo, on utilise celui de la connexion
+      message: data.message
+    };
+    chatHistory.push(messageData);
 
     // Limiter l'historique à 50 messages pour ne pas surcharger
     if (chatHistory.length > 50) chatHistory.shift();
 
     // Diffuser le message à tous les utilisateurs
-    io.emit('chat-message', data);
+    io.emit('chat-message', messageData);
   });
 
   // Déconnexion de l'utilisateur
