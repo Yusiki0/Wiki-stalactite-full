@@ -442,7 +442,7 @@ body {
     const messageElement = document.createElement('div');
     messageElement.classList.add('chat-message');
     messageElement.textContent = `${data.username}: ${data.message}`;
-    
+
     // Ajouter un bouton pour supprimer le message si l'utilisateur est admin
     if (data.username === 'admin') {
       const deleteButton = document.createElement('button');
@@ -520,11 +520,20 @@ body {
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
-  // Définir un pseudo pour l'utilisateur
-  socket.emit('set-username', 'admin');  // Définir le pseudo comme admin pour test
+  // Ajouter un événement pour le clic sur le bouton de validation du pseudo
+  document.getElementById('set-username').addEventListener('click', () => {
+    const username = document.getElementById('username').value.trim();
+    if (username) {
+      // Définir le pseudo pour l'utilisateur
+      socket.emit('set-username', username);
+      socket.username = username;  // Sauvegarder le pseudo localement
+
+      // Masquer le formulaire de pseudo et afficher le chat
+      document.getElementById('username-form').style.display = 'none';
+      document.getElementById('public-chat').style.display = 'block';
+    }
+  });
 </script>
-
-
 
 <footer class="bg-dark text-white py-4">
   <div class="container">
