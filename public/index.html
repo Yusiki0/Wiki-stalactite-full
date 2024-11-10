@@ -426,47 +426,62 @@ body {
     </div>
 </section>
 
- <script src="/socket.io/socket.io.js"></script>
-    <script>
-        // Connexion au serveur Socket.IO
-        const socket = io();
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    // Connexion au serveur Socket.IO
+    const socket = io();
 
-        // Écouter les messages du serveur et les afficher dans l'historique
-        socket.on('chat-message', (data) => {
+    // Écouter les messages du serveur et les afficher dans l'historique
+    socket.on('chat-message', (data) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message');
+        messageElement.textContent = data.message;
+        document.getElementById('chat-box').appendChild(messageElement);
+        scrollToBottom();
+    });
+
+    // Recevoir l'historique des messages
+    socket.on('chat-history', (history) => {
+        history.forEach((message) => {
             const messageElement = document.createElement('div');
             messageElement.classList.add('chat-message');
-            messageElement.textContent = data.message;
-            document.getElementById('chat-history').appendChild(messageElement);
-            scrollToBottom();
+            messageElement.textContent = message.message;
+            document.getElementById('chat-box').appendChild(messageElement);
         });
+        scrollToBottom();
+    });
 
-        // Recevoir l'historique des messages
-        socket.on('chat-history', (history) => {
-            history.forEach((message) => {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('chat-message');
-                messageElement.textContent = message.message;
-                document.getElementById('chat-history').appendChild(messageElement);
-            });
+    // Fonction pour envoyer un message
+    function sendMessage(event) {
+        event.preventDefault();  // Empêche le rechargement de la page lors de l'envoi
+
+        const messageInput = document.getElementById('message-input');
+        const message = messageInput.value.trim();
+
+        if (message) {
+            // Émettre un événement 'send-message' vers le serveur
+            socket.emit('send-message', { message });
+
+            // Ajouter le message à l'interface en tant que message utilisateur
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', 'user');
+            messageElement.textContent = message;
+            document.getElementById('chat-box').appendChild(messageElement);
+            messageInput.value = '';  // Réinitialiser le champ de message
             scrollToBottom();
-        });
-
-        // Fonction pour envoyer un message
-        function sendMessage() {
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput.value.trim();
-            if (message) {
-                socket.emit('chat-message', { message });
-                messageInput.value = '';
-            }
         }
+    }
 
-        // Fonction pour faire défiler l'historique des messages jusqu'en bas
-        function scrollToBottom() {
-            const chatHistory = document.getElementById('chat-history');
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
-    </script>
+    // Ajouter un événement de soumission au formulaire pour envoyer le message
+    document.getElementById('chat-form').addEventListener('submit', sendMessage);
+
+    // Fonction pour faire défiler la vue vers le bas
+    function scrollToBottom() {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>
+
 
 <footer class="bg-dark text-white py-4">
   <div class="container">
