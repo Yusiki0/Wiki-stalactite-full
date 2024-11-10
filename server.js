@@ -1,4 +1,3 @@
-// Importation des modules nécessaires
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -23,7 +22,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connexion à MongoDB
-mongoose.connect('mongodb+srv://yusikiyuki:mimikoko155@squadchat.hzdjq2f.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
+mongoose.connect('mongodb://localhost:27017/chatApp', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -50,12 +49,12 @@ io.on('connection', (socket) => {
 
   // Envoyer l'historique des messages au nouvel utilisateur
   Message.find().sort({ timestamp: 1 }).limit(50).then(messages => {
-    socket.emit('chat-history', messages); // Envoyer les messages historiques
+    socket.emit('chat-history', messages);
   });
 
   // Réception du pseudo
   socket.on('set-username', (username) => {
-    socket.username = username;  // Sauvegarder le pseudo dans la session du socket
+    socket.username = username;  // Sauvegarder le pseudo
   });
 
   // Réception d'un message de chat
@@ -72,6 +71,23 @@ io.on('connection', (socket) => {
         io.emit('chat-message', data);
       })
       .catch(err => console.log('Erreur lors de l\'enregistrement du message', err));
+  });
+
+  // Réception de la demande de suppression de message
+  socket.on('delete-message', (messageId) => {
+    // Vérifier si l'utilisateur est un administrateur (par exemple, si le pseudo est "admin")
+    if (socket.username === 'admin') {
+      // Supprimer le message de MongoDB
+      Message.deleteOne({ _id: messageId })
+        .then(() => {
+          // Diffuser l'événement de suppression à tous les clients
+          io.emit('delete-message', messageId);
+          console.log(`Message avec ID ${messageId} supprimé`);
+        })
+        .catch(err => console.log('Erreur lors de la suppression du message', err));
+    } else {
+      console.log('Tentative de suppression par un utilisateur non autorisé');
+    }
   });
 
   // Déconnexion de l'utilisateur
