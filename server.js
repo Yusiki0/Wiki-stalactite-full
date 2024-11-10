@@ -1,9 +1,10 @@
-// Importation
+// Importation des modules nécessaires
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
+const mongoose = require('mongoose');
 
 // Initialisation de l'application et du serveur HTTP
 const app = express();
@@ -21,8 +22,22 @@ app.use(cors());
 // Configuration pour servir les fichiers statiques depuis le dossier "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Variables pour stocker l'historique des messages
-let chatHistory = [];
+// Connexion à MongoDB
+mongoose.connect('mongodb+srv://yusikiyuki:mimikoko155@squadchat.hzdjq2f.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('Connecté à MongoDB'))
+  .catch(err => console.log('Erreur de connexion à MongoDB', err));
+
+// Création d'un modèle pour les messages
+const messageSchema = new mongoose.Schema({
+  username: String,
+  message: String,
+  timestamp: { type: Date, default: Date.now }
+});
+
+const Message = mongoose.model('Message', messageSchema);
 
 // Route par défaut pour vérifier si le serveur fonctionne
 app.get('/', (req, res) => {
@@ -34,27 +49,29 @@ io.on('connection', (socket) => {
   console.log(`Utilisateur connecté : ${socket.id}`);
 
   // Envoyer l'historique des messages au nouvel utilisateur
-  socket.emit('chat-history', chatHistory);
+  Message.find().sort({ timestamp: 1 }).limit(50).then(messages => {
+    socket.emit('chat-history', messages); // Envoyer les messages historiques
+  });
 
   // Réception du pseudo
   socket.on('set-username', (username) => {
-    socket.username = username;  // Sauvegarder le pseudo
+    socket.username = username;  // Sauvegarder le pseudo dans la session du socket
   });
 
   // Réception d'un message de chat
   socket.on('chat-message', (data) => {
-    // Enregistrer le message avec le pseudo
-    const messageData = {
-      username: data.username || socket.username, // Si pas de pseudo, on utilise celui de la connexion
+    const newMessage = new Message({
+      username: data.username,
       message: data.message
-    };
-    chatHistory.push(messageData);
+    });
 
-    // Limiter l'historique à 50 messages pour ne pas surcharger
-    if (chatHistory.length > 50) chatHistory.shift();
-
-    // Diffuser le message à tous les utilisateurs
-    io.emit('chat-message', messageData);
+    // Enregistrer le message dans MongoDB
+    newMessage.save()
+      .then(() => {
+        // Diffuser le message à tous les utilisateurs
+        io.emit('chat-message', data);
+      })
+      .catch(err => console.log('Erreur lors de l\'enregistrement du message', err));
   });
 
   // Déconnexion de l'utilisateur
