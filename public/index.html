@@ -500,13 +500,8 @@ body {
       // Emission du message vers le serveur
       socket.emit('chat-message', { username: socket.username, message });
 
-      // Affichage du message localement
-      const messageElement = document.createElement('div');
-      messageElement.classList.add('chat-message', 'user');
-      messageElement.textContent = `${socket.username}: ${message}`;
-      document.getElementById('chat-box').appendChild(messageElement);
-
-      messageInput.value = '';  // Réinitialiser le champ
+      // Réinitialiser le champ et faire défiler vers le bas
+      messageInput.value = '';
       scrollToBottom();
     }
   }
