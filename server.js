@@ -96,8 +96,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// Lancer le serveur
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`Serveur lancé sur le port ${PORT}`);
+// Démarrer le serveur
+server.listen(3000, () => {
+  console.log('Serveur démarré sur http://localhost:3000');
 });
