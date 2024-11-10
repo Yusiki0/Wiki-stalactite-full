@@ -442,9 +442,10 @@ body {
     const messageElement = document.createElement('div');
     messageElement.classList.add('chat-message');
     messageElement.textContent = `${data.username}: ${data.message}`;
+    messageElement.setAttribute('data-id', data._id);  // Ajouter l'ID du message pour la suppression
 
     // Ajouter un bouton pour supprimer le message si l'utilisateur est admin
-    if (data.username === 'admin') {
+    if (socket.username === 'admin') {  // Vérifier si l'utilisateur est admin
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Supprimer';
       deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
@@ -464,14 +465,15 @@ body {
       const messageElement = document.createElement('div');
       messageElement.classList.add('chat-message');
       messageElement.textContent = `${message.username}: ${message.message}`;
+      messageElement.setAttribute('data-id', message._id);  // Ajouter l'ID du message pour la suppression
 
       // Ajouter un bouton pour supprimer le message si l'utilisateur est admin
-      if (message.username === 'admin') {
+      if (socket.username === 'admin') {  // Vérifier si l'utilisateur est admin
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Supprimer';
         deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
         deleteButton.addEventListener('click', () => {
-          socket.emit('delete-message', message._id);
+          socket.emit('delete-message', message._id);  // Envoi de l'ID pour supprimer le message
         });
         messageElement.appendChild(deleteButton);
       }
