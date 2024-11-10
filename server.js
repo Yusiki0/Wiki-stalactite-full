@@ -66,9 +66,9 @@ io.on('connection', (socket) => {
 
     // Enregistrer le message dans MongoDB
     newMessage.save()
-      .then(() => {
+      .then((savedMessage) => {
         // Diffuser le message à tous les utilisateurs
-        io.emit('chat-message', data);
+        io.emit('chat-message', { ...savedMessage.toObject(), _id: savedMessage._id });
       })
       .catch(err => console.log('Erreur lors de l\'enregistrement du message', err));
   });
@@ -96,7 +96,8 @@ io.on('connection', (socket) => {
   });
 });
 
-// Démarrer le serveur
-server.listen(3000, () => {
-  console.log('Serveur démarré sur http://localhost:3000');
+// Lancer le serveur
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Serveur lancé sur le port ${PORT}`);
 });
