@@ -426,57 +426,39 @@ body {
     </div>
 </section>
 
-<!-- Ajoutez ce script dans le body de votre HTML -->
-<script src="https://public-chat-stalactite.onrender.com/socket.io/socket.io.js"></script>
 <script>
-    const socket = io('https://public-chat-stalactite.onrender.com');
+    const socket = io(); // Se connecte au serveur Node.js actuel
     const chatBox = document.getElementById('chat-box');
     const chatForm = document.getElementById('chat-form');
     const messageInput = document.getElementById('message-input');
 
-    let pseudo = null; // Initialisation du pseudo à null
+    let pseudo = prompt("Entrez votre pseudo :");
 
-    // Ajouter les anciens messages (historique)
-    socket.on('chat-history', (messages) => {
-        messages.forEach((msg) => {
-            addMessageToChat(msg.pseudo, msg.message);
-        });
-    });
+    function addMessageToChat(pseudo, message, isUser = false) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message', isUser ? 'user' : 'other');
+        messageElement.innerHTML = `<strong>${pseudo}</strong>: ${message}`;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-    // Ajouter un nouveau message quand il est reçu
+    // Envoie des messages du chat à tous les utilisateurs
     socket.on('chat-message', ({ pseudo, message }) => {
         addMessageToChat(pseudo, message);
     });
 
-    // Envoi d'un message
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        // Si le pseudo n'a pas encore été saisi, demander à l'utilisateur de l'entrer
-        if (!pseudo) {
-            pseudo = prompt('Entrez votre pseudo :');
-            if (!pseudo) {
-                alert('Le pseudo est requis pour envoyer un message.');
-                return;
-            }
-        }
-
         const message = messageInput.value;
-        if (message.trim()) {
-            // Envoyer le message avec le pseudo
-            socket.emit('chat-message', { pseudo, message });
-            messageInput.value = ''; // Effacer le champ de texte
-        }
-    });
+        if (message.trim() === '') return;
 
-    function addMessageToChat(pseudo, message) {
-        const msgElement = document.createElement('div');
-        msgElement.classList.add('chat-message'); // Classe commune pour tous les messages
-        msgElement.textContent = `${pseudo}: ${message}`;
-        chatBox.appendChild(msgElement);
-        msgElement.scrollIntoView({ behavior: 'smooth' }); // Scroll automatique vers le bas
-    }
+        addMessageToChat(pseudo, message, true);
+        socket.emit('chat-message', { pseudo, message });
+
+        messageInput.value = '';
+    });
 </script>
+
 
 
 <footer class="bg-dark text-white py-4">
