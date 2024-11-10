@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connexion à MongoDB
-mongoose.connect('mongodb://localhost:27017/chatApp', {
+mongoose.connect('mongodb+srv://yusikiyuki:mimikoko155@squadchat.hzdjq2f.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
