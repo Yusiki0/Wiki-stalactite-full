@@ -1,15 +1,16 @@
-// Importations
+// Importation
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const path = require('path');
 
 // Initialisation de l'application et du serveur HTTP
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',  // Autoriser toutes les origines
+    origin: '*', // Autoriser toutes les origines
     methods: ['GET', 'POST']
   }
 });
@@ -17,12 +18,15 @@ const io = new Server(server, {
 // Middleware pour autoriser les requêtes CORS
 app.use(cors());
 
+// Configuration pour servir les fichiers statiques depuis le dossier "public"
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Variables pour stocker l'historique des messages
 let chatHistory = [];
 
 // Route par défaut pour vérifier si le serveur fonctionne
 app.get('/', (req, res) => {
-  res.send("Serveur de Pokémon Stalactite en ligne !");
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Connexion des sockets
