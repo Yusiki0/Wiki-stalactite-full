@@ -6,7 +6,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./models/User'); // Importez le modèle User
-const Message = require('./models/Message'); // Assurez-vous d'importer également votre modèle Message
 
 const app = express();
 const server = http.createServer(app);
