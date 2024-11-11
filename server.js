@@ -75,6 +75,9 @@ app.post('/login', async (req, res) => {
 io.on('connection', (socket) => {
   console.log(`Utilisateur connecté : ${socket.id}`);
 
+io.on('connection', (socket) => {
+  console.log(`Utilisateur connecté : ${socket.id}`);
+
   // Envoyer l'historique des messages au nouvel utilisateur
   Message.find().sort({ timestamp: 1 }).limit(50).then(messages => {
     socket.emit('chat-history', messages);  // Envoi de l'historique des messages
@@ -95,13 +98,12 @@ io.on('connection', (socket) => {
         console.log('Erreur lors de l\'enregistrement du message', err);
       });
   });
-});
 
   // Lors de la déconnexion de l'utilisateur
   socket.on('disconnect', () => {
     console.log(`Utilisateur déconnecté : ${socket.id}`);
   });
-});
+}); // <-- La bonne fermeture ici pour 'io.on('connection')'
 
 // Lancer le serveur
 const PORT = process.env.PORT || 4000;
