@@ -416,9 +416,9 @@ body {
 <div id="auth-form">
   <h2>Veuillez vous connecter ou vous inscrire pour accéder au chat.</h2>
   <div>
-    <label>Pseudo:</label>
+    <label for="username-input">Pseudo:</label>
     <input type="text" id="username-input" required />
-    <label>Mot de passe:</label>
+    <label for="password-input">Mot de passe:</label>
     <input type="password" id="password-input" required />
     <button id="login-button">Se connecter</button>
     <button id="register-button">S'inscrire</button>
@@ -440,36 +440,30 @@ body {
   const socket = io();
   let currentUser = null;
 
-  document.getElementById('login-button').addEventListener('click', async () => {
+  async function authenticate(endpoint) {
     const username = document.getElementById('username-input').value;
     const password = document.getElementById('password-input').value;
-    const response = await fetch('/login', {
+
+    const response = await fetch(`/${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
+
+    const data = await response.json();
+    const authMessage = document.getElementById('auth-message');
+
     if (response.ok) {
+      authMessage.innerText = data.message;
       currentUser = username;
       initializeChat();
     } else {
-      document.getElementById('auth-message').innerText = 'Connexion échouée. Vérifiez vos identifiants.';
+      authMessage.innerText = data.message;
     }
-  });
+  }
 
-  document.getElementById('register-button').addEventListener('click', async () => {
-    const username = document.getElementById('username-input').value;
-    const password = document.getElementById('password-input').value;
-    const response = await fetch('/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    if (response.ok) {
-      document.getElementById('auth-message').innerText = 'Inscription réussie, vous pouvez vous connecter.';
-    } else {
-      document.getElementById('auth-message').innerText = 'Erreur lors de l\'inscription.';
-    }
-  });
+  document.getElementById('login-button').addEventListener('click', () => authenticate('login'));
+  document.getElementById('register-button').addEventListener('click', () => authenticate('register'));
 
   function initializeChat() {
     document.getElementById('auth-form').style.display = 'none';
@@ -506,8 +500,7 @@ body {
   });
 </script>
 
-
-
+  
 <footer class="bg-dark text-white py-4">
   <div class="container">
     <div class="row align-items-center">
