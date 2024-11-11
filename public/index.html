@@ -495,7 +495,7 @@ body {
       currentUser = username;
       document.getElementById('auth-form').style.display = 'none'; // Masquer le formulaire
       document.getElementById('public-chat').style.display = 'block'; // Afficher le chat
-      initializeChat(); // Appel de la fonction pour initialiser le chat
+      initializeChat(); // Initialiser le chat
     } else {
       const result = await response.json();
       document.getElementById('auth-message').innerText = result.message || 'Connexion échouée.';
@@ -522,11 +522,14 @@ body {
 
   // Fonction d'initialisation du chat
   function initializeChat() {
-    socket.emit('set-username', currentUser);  // Assigner l'utilisateur à la session socket
+    socket.emit('set-username', currentUser); // Assigner l'utilisateur à la session socket
 
     // Afficher les messages existants
     socket.on('chat-history', (messages) => {
       const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML = '';  // Effacer le contenu existant du chat
+
+      // Ajouter chaque message de l'historique
       messages.forEach(msg => {
         const messageDiv = document.createElement('div');
         messageDiv.textContent = `${msg.username}: ${msg.message}`;
@@ -534,7 +537,7 @@ body {
       });
     });
 
-    // Réception des messages du chat
+    // Réception des nouveaux messages
     socket.on('chat-message', (data) => {
       const messageDiv = document.createElement('div');
       messageDiv.textContent = `${data.username}: ${data.message}`;
@@ -547,7 +550,7 @@ body {
       const message = document.getElementById('message-input').value;
       if (message.trim() !== '') {
         socket.emit('chat-message', { username: currentUser, message });
-        document.getElementById('message-input').value = '';
+        document.getElementById('message-input').value = ''; // Réinitialiser le champ du message
       }
     });
   }
