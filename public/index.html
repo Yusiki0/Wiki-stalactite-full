@@ -527,7 +527,6 @@ body {
     // Afficher l'historique des messages
     socket.on('chat-history', (messages) => {
       const chatBox = document.getElementById('chat-box');
-      chatBox.innerHTML = '';  // Effacer le contenu existant du chat
 
       // Ajouter chaque message de l'historique
       messages.forEach(msg => {
