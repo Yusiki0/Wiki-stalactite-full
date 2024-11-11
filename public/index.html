@@ -199,6 +199,47 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
+#auth-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 100px;
+    }
+
+    #auth-form input {
+      margin-bottom: 10px;
+      padding: 10px;
+      width: 300px;
+    }
+
+    #auth-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    #chat-box {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 20px;
+      border: 1px solid var(--primary-color);
+      border-radius: 10px;
+      padding: 10px;
+      background-color: white;
+    }
+
+    #chat-form {
+      margin-top: 20px;
+    }
+
+    #chat-form input {
+      width: 85%;
+      padding: 10px;
+    }
+
+    #chat-form button {
+      padding: 10px 20px;
+    }
 </style>
 </head>
 <body>
@@ -428,7 +469,7 @@ body {
 
 <section id="public-chat" style="display: none;">
   <h2>Public Chat</h2>
-  <div id="chat-box" style="max-height: 400px; overflow-y: auto;"></div>
+  <div id="chat-box"></div>
   <form id="chat-form">
     <input type="text" id="message-input" placeholder="Entrez votre message..." required />
     <button type="submit">Envoyer</button>
@@ -452,10 +493,12 @@ body {
 
     if (response.ok) {
       currentUser = username;
-      initializeChat(); // Afficher le chat
+      document.getElementById('auth-form').style.display = 'none'; // Masquer le formulaire
+      document.getElementById('public-chat').style.display = 'block'; // Afficher le chat
+      initializeChat(); // Appel de la fonction pour initialiser le chat
     } else {
       const result = await response.json();
-      document.getElementById('auth-message').innerText = result.message || 'Connexion échouée. Vérifiez vos identifiants.';
+      document.getElementById('auth-message').innerText = result.message || 'Connexion échouée.';
     }
   });
 
@@ -469,45 +512,34 @@ body {
       body: JSON.stringify({ username, password })
     });
 
+    const result = await response.json();
     if (response.ok) {
-      document.getElementById('auth-message').innerText = 'Inscription réussie, vous pouvez vous connecter.';
+      document.getElementById('auth-message').innerText = 'Inscription réussie, vous pouvez maintenant vous connecter.';
     } else {
-      const result = await response.json();
-      document.getElementById('auth-message').innerText = result.message || 'Erreur lors de l\'inscription.';
+      document.getElementById('auth-message').innerText = result.message || 'Inscription échouée.';
     }
   });
 
-  // Fonction pour initialiser le chat et afficher le formulaire
+  // Fonction d'initialisation du chat
   function initializeChat() {
-    document.getElementById('auth-form').style.display = 'none';  // Masquer le formulaire d'authentification
-    document.getElementById('public-chat').style.display = 'block';  // Afficher le chat
-    socket.emit('set-username', currentUser);  // Envoyer le nom d'utilisateur au serveur
+    socket.emit('join', currentUser);
+
+    socket.on('chat-message', (message) => {
+      const messageDiv = document.createElement('div');
+      messageDiv.textContent = message;
+      document.getElementById('chat-box').appendChild(messageDiv);
+    });
+
+    document.getElementById('chat-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = document.getElementById('message-input').value;
+      if (message.trim() !== '') {
+        socket.emit('chat-message', { user: currentUser, message });
+        document.getElementById('message-input').value = '';
+      }
+    });
   }
-
-  // Gérer les messages du chat
-  socket.on('chat-message', (data) => {
-    const messageElement = document.createElement('div');
-    messageElement.textContent = `${data.username}: ${data.message}`;
-    if (currentUser === 'admin') {
-      const deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Supprimer';
-      deleteButton.onclick = () => socket.emit('delete-message', data._id);
-      messageElement.appendChild(deleteButton);
-    }
-    document.getElementById('chat-box').appendChild(messageElement);
-  });
-
-  // Événement pour envoyer un message
-  document.getElementById('chat-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const message = document.getElementById('message-input').value;
-    if (message) {
-      socket.emit('chat-message', { username: currentUser, message });
-      document.getElementById('message-input').value = '';
-    }
-  });
-</script>
-
+</script>  
   
 <footer class="bg-dark text-white py-4">
   <div class="container">
