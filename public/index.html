@@ -454,9 +454,9 @@ body {
     const authMessage = document.getElementById('auth-message');
 
     if (response.ok) {
-      authMessage.innerText = data.message;
       currentUser = username;
-      initializeChat();
+      authMessage.innerText = data.message;
+      initializeChat(); // Appeler initializeChat pour afficher le chat après authentification réussie
     } else {
       authMessage.innerText = data.message;
     }
@@ -499,6 +499,7 @@ body {
     }
   });
 </script>
+
 
   
 <footer class="bg-dark text-white py-4">
