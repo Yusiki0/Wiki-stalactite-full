@@ -10,10 +10,13 @@ const Message = require('./models/Message');
 
 const app = express();
 const server = http.createServer(app);
+
+// Configurer socket.io avec CORS
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
+    origin: '*',  // Autoriser toutes les origines pour les connexions WebSocket
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type']
   }
 });
 
@@ -77,8 +80,8 @@ io.on('connection', (socket) => {
   console.log(`Utilisateur connecté : ${socket.id}`);
 
   // Envoyer l'historique des messages au nouvel utilisateur
-  Message.find().sort({ timestamp: 1 }).limit(50).then(messages => {
-    socket.emit('chat-history', messages);  // Envoi de l'historique des messages
+  Message.find().sort({ timestamp: -1 }).limit(50).then(messages => {
+    socket.emit('chat-history', messages.reverse());  // Envoi des derniers messages triés par timestamp
   }).catch(err => {
     console.log('Erreur lors de la récupération des messages', err);
     socket.emit('chat-history', []);  // Envoi d'un tableau vide en cas d'erreur
@@ -86,7 +89,7 @@ io.on('connection', (socket) => {
 
   // Gestion des messages du chat
   socket.on('chat-message', (data) => {
-    const newMessage = new Message({ username: data.username, message: data.message });
+    const newMessage = new Message({ username: data.username, message: data.message, timestamp: new Date() });
 
     newMessage.save()
       .then((savedMessage) => {
