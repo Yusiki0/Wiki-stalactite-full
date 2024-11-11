@@ -23,11 +23,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connexion à MongoDB
-mongoose.connect('mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
+mongoose.connect('mongodb+srv://yusikiyuki:mimikoko155@squadchat.hzdjq2f.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('Connecté à MongoDB'))
-  .catch(err => console.log('Erreur de connexion à MongoDB', err));
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000 // Délai d'attente de 30 secondes
+})
+.then(() => console.log('Connecté à MongoDB'))
+.catch(err => console.log('Erreur de connexion à MongoDB', err));
 
 // Endpoint pour gérer l'inscription des utilisateurs
 app.post('/register', async (req, res) => {
