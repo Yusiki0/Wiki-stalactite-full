@@ -491,13 +491,13 @@ body {
       body: JSON.stringify({ username, password })
     });
 
+    const result = await response.json();
     if (response.ok) {
       currentUser = username;
       document.getElementById('auth-form').style.display = 'none'; // Masquer le formulaire
       document.getElementById('public-chat').style.display = 'block'; // Afficher le chat
       initializeChat(); // Initialiser le chat
     } else {
-      const result = await response.json();
       document.getElementById('auth-message').innerText = result.message || 'Connexion échouée.';
     }
   });
@@ -524,7 +524,7 @@ body {
   function initializeChat() {
     socket.emit('set-username', currentUser); // Assigner l'utilisateur à la session socket
 
-    // Afficher les messages existants
+    // Afficher l'historique des messages
     socket.on('chat-history', (messages) => {
       const chatBox = document.getElementById('chat-box');
       chatBox.innerHTML = '';  // Effacer le contenu existant du chat
@@ -535,6 +535,9 @@ body {
         messageDiv.textContent = `${msg.username}: ${msg.message}`;
         chatBox.appendChild(messageDiv);
       });
+
+      // Scroll vers le bas du chat pour voir les nouveaux messages
+      chatBox.scrollTop = chatBox.scrollHeight;
     });
 
     // Réception des nouveaux messages
@@ -542,6 +545,10 @@ body {
       const messageDiv = document.createElement('div');
       messageDiv.textContent = `${data.username}: ${data.message}`;
       document.getElementById('chat-box').appendChild(messageDiv);
+
+      // Scroll vers le bas du chat pour voir les nouveaux messages
+      const chatBox = document.getElementById('chat-box');
+      chatBox.scrollTop = chatBox.scrollHeight;
     });
 
     // Gestion de l'envoi des messages
@@ -555,6 +562,7 @@ body {
     });
   }
 </script>
+
  
   
 <footer class="bg-dark text-white py-4">
