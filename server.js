@@ -76,16 +76,20 @@ app.post('/login', async (req, res) => {
 });
 
 // Lorsqu'un utilisateur se connecte
+// Lorsqu'un utilisateur se connecte
 io.on('connection', (socket) => {
   console.log(`Utilisateur connecté : ${socket.id}`);
 
   // Envoyer l'historique des messages au nouvel utilisateur
-  Message.find().sort({ timestamp: -1 }).limit(50).then(messages => {
-    socket.emit('chat-history', messages.reverse());  // Envoi des derniers messages triés par timestamp
-  }).catch(err => {
-    console.log('Erreur lors de la récupération des messages', err);
-    socket.emit('chat-history', []);  // Envoi d'un tableau vide en cas d'erreur
-  });
+  Message.find().sort({ timestamp: -1 }).limit(50)
+    .then(messages => {
+      console.log("Historique des messages récupéré:", messages);  // Log l'historique récupéré
+      socket.emit('chat-history', messages.reverse());  // Envoi des derniers messages triés par timestamp
+    })
+    .catch(err => {
+      console.log('Erreur lors de la récupération des messages', err);
+      socket.emit('chat-history', []);  // Envoi d'un tableau vide en cas d'erreur
+    });
 
   // Gestion des messages du chat
   socket.on('chat-message', (data) => {
