@@ -46,30 +46,25 @@ const messageSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const Message = mongoose.model('Message', messageSchema);
 
-// Route par défaut pour vérifier si le serveur fonctionne
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Endpoint pour gérer l'inscription des utilisateurs
+// Endpoint pour vérifier l'inscription des utilisateurs
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, password: hashedPassword });
     await user.save();
-    res.status(201).send({ message: 'Inscription réussie !' });
+    res.status(201).send({ message: 'Inscription réussie ! Vous pouvez maintenant vous connecter.' });
   } catch (err) {
     res.status(400).send({ message: 'Erreur lors de l\'inscription : ' + err });
   }
 });
 
-// Endpoint pour gérer la connexion des utilisateurs
+// Endpoint pour vérifier la connexion des utilisateurs
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
   if (user && await bcrypt.compare(password, user.password)) {
-    res.status(200).send({ message: 'Connexion réussie !' });
+    res.status(200).send({ message: 'Connexion réussie ! Bienvenue, ' + username });
   } else {
     res.status(400).send({ message: 'Pseudo ou mot de passe incorrect.' });
   }
@@ -79,12 +74,12 @@ app.post('/login', async (req, res) => {
 io.on('connection', (socket) => {
   console.log(`Utilisateur connecté : ${socket.id}`);
 
-  // Envoyer l'historique des messages au nouvel utilisateur
+  // Envoi de l'historique des messages au nouvel utilisateur
   Message.find().sort({ timestamp: 1 }).limit(50).then(messages => {
     socket.emit('chat-history', messages);
   });
 
-  // Réception de l'identifiant de l'utilisateur
+  // Stockage de l'utilisateur connecté
   socket.on('set-username', (username) => {
     socket.username = username;
   });
@@ -97,7 +92,7 @@ io.on('connection', (socket) => {
     }).catch(err => console.log('Erreur lors de l\'enregistrement du message', err));
   });
 
-  // Gestion de la suppression des messages par l'utilisateur admin
+  // Suppression de message (admin seulement)
   socket.on('delete-message', (messageId) => {
     if (socket.username === 'admin') {
       Message.deleteOne({ _id: messageId }).then(() => {
