@@ -469,7 +469,7 @@ body {
 
 <section id="public-chat" style="display: none;">
   <h2>Public Chat</h2>
-  <div id="chat-box"></div>
+  <div id="chat-box" style="height: 300px; overflow-y: scroll;"></div>
   <form id="chat-form">
     <input type="text" id="message-input" placeholder="Entrez votre message..." required />
     <button type="submit">Envoyer</button>
@@ -527,6 +527,7 @@ body {
     // Afficher l'historique des messages
     socket.on('chat-history', (messages) => {
       const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML = ''; // Effacer le contenu existant du chat
 
       // Ajouter chaque message de l'historique
       messages.forEach(msg => {
@@ -561,7 +562,6 @@ body {
     });
   }
 </script>
-
  
   
 <footer class="bg-dark text-white py-4">
