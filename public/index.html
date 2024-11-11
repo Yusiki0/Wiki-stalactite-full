@@ -522,24 +522,37 @@ body {
 
   // Fonction d'initialisation du chat
   function initializeChat() {
-    socket.emit('join', currentUser);
+    socket.emit('set-username', currentUser);  // Assigner l'utilisateur à la session socket
 
-    socket.on('chat-message', (message) => {
+    // Afficher les messages existants
+    socket.on('chat-history', (messages) => {
+      const chatBox = document.getElementById('chat-box');
+      messages.forEach(msg => {
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = `${msg.username}: ${msg.message}`;
+        chatBox.appendChild(messageDiv);
+      });
+    });
+
+    // Réception des messages du chat
+    socket.on('chat-message', (data) => {
       const messageDiv = document.createElement('div');
-      messageDiv.textContent = message;
+      messageDiv.textContent = `${data.username}: ${data.message}`;
       document.getElementById('chat-box').appendChild(messageDiv);
     });
 
+    // Gestion de l'envoi des messages
     document.getElementById('chat-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const message = document.getElementById('message-input').value;
       if (message.trim() !== '') {
-        socket.emit('chat-message', { user: currentUser, message });
+        socket.emit('chat-message', { username: currentUser, message });
         document.getElementById('message-input').value = '';
       }
     });
   }
-</script>  
+</script>
+ 
   
 <footer class="bg-dark text-white py-4">
   <div class="container">
