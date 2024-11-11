@@ -416,9 +416,9 @@ body {
 <div id="auth-form">
   <h2>Veuillez vous connecter ou vous inscrire pour accéder au chat.</h2>
   <div>
-    <label for="username-input">Pseudo:</label>
+    <label>Pseudo:</label>
     <input type="text" id="username-input" required />
-    <label for="password-input">Mot de passe:</label>
+    <label>Mot de passe:</label>
     <input type="password" id="password-input" required />
     <button id="login-button">Se connecter</button>
     <button id="register-button">S'inscrire</button>
@@ -440,37 +440,51 @@ body {
   const socket = io();
   let currentUser = null;
 
-  async function authenticate(endpoint) {
+  // Fonction pour gérer la connexion
+  document.getElementById('login-button').addEventListener('click', async () => {
     const username = document.getElementById('username-input').value;
     const password = document.getElementById('password-input').value;
-
-    const response = await fetch(`/${endpoint}`, {
+    const response = await fetch('/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
 
-    const data = await response.json();
-    const authMessage = document.getElementById('auth-message');
-
     if (response.ok) {
       currentUser = username;
-      authMessage.innerText = data.message;
-      initializeChat(); // Appeler initializeChat pour afficher le chat après authentification réussie
+      initializeChat(); // Afficher le chat
     } else {
-      authMessage.innerText = data.message;
+      const result = await response.json();
+      document.getElementById('auth-message').innerText = result.message || 'Connexion échouée. Vérifiez vos identifiants.';
     }
-  }
+  });
 
-  document.getElementById('login-button').addEventListener('click', () => authenticate('login'));
-  document.getElementById('register-button').addEventListener('click', () => authenticate('register'));
+  // Fonction pour gérer l'inscription
+  document.getElementById('register-button').addEventListener('click', async () => {
+    const username = document.getElementById('username-input').value;
+    const password = document.getElementById('password-input').value;
+    const response = await fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
 
+    if (response.ok) {
+      document.getElementById('auth-message').innerText = 'Inscription réussie, vous pouvez vous connecter.';
+    } else {
+      const result = await response.json();
+      document.getElementById('auth-message').innerText = result.message || 'Erreur lors de l\'inscription.';
+    }
+  });
+
+  // Fonction pour initialiser le chat et afficher le formulaire
   function initializeChat() {
-    document.getElementById('auth-form').style.display = 'none';
-    document.getElementById('public-chat').style.display = 'block';
-    socket.emit('set-username', currentUser);
+    document.getElementById('auth-form').style.display = 'none';  // Masquer le formulaire d'authentification
+    document.getElementById('public-chat').style.display = 'block';  // Afficher le chat
+    socket.emit('set-username', currentUser);  // Envoyer le nom d'utilisateur au serveur
   }
 
+  // Gérer les messages du chat
   socket.on('chat-message', (data) => {
     const messageElement = document.createElement('div');
     messageElement.textContent = `${data.username}: ${data.message}`;
@@ -483,13 +497,7 @@ body {
     document.getElementById('chat-box').appendChild(messageElement);
   });
 
-  socket.on('delete-message', (messageId) => {
-    const messageElement = document.querySelector(`[data-id="${messageId}"]`);
-    if (messageElement) {
-      messageElement.remove();
-    }
-  });
-
+  // Événement pour envoyer un message
   document.getElementById('chat-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const message = document.getElementById('message-input').value;
@@ -499,7 +507,6 @@ body {
     }
   });
 </script>
-
 
   
 <footer class="bg-dark text-white py-4">
