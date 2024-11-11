@@ -71,7 +71,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Gestion des connexions socket.io
+// Lorsqu'un utilisateur se connecte
 io.on('connection', (socket) => {
   console.log(`Utilisateur connecté : ${socket.id}`);
 
@@ -81,12 +81,6 @@ io.on('connection', (socket) => {
   }).catch(err => {
     console.log('Erreur lors de la récupération des messages', err);
     socket.emit('chat-history', []);  // Envoi d'un tableau vide en cas d'erreur
-  });
-
-  // Réception du nom d'utilisateur et l'assigner à la session de l'utilisateur
-  socket.on('set-username', (username) => {
-    socket.username = username;
-    console.log(`Nom d'utilisateur défini : ${username}`);
   });
 
   // Gestion des messages du chat
@@ -101,6 +95,7 @@ io.on('connection', (socket) => {
         console.log('Erreur lors de l\'enregistrement du message', err);
       });
   });
+});
 
   // Lors de la déconnexion de l'utilisateur
   socket.on('disconnect', () => {
