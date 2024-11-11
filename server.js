@@ -24,10 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connexion à MongoDB
-mongoose.connect('mmongodb+srv://yusikiyuki:mimikoko155@squadchat.hzdjq2f.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
+mongoose.connect('mongodb+srv://yusikiyuki:mimikoko155@squadchat.hzdjq2f.mongodb.net/?retryWrites=true&w=majority&appName=SquadChat', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000
+  serverSelectionTimeoutMS: 60000
 })
 .then(() => console.log('Connecté à MongoDB'))
 .catch(err => console.log('Erreur de connexion à MongoDB', err));
