@@ -41,30 +41,35 @@ body {
 }
 
 .chat-container {
-            max-height: 400px; /* Limite la hauteur du chat */
-            overflow-y: auto; /* Ajoute le défilement vertical */
-            margin-top: 20px; /* Ajout d'un peu d'espace en haut */
-            border: 1px solid var(--primary-color); /* Bordure pour délimiter le chat */
-            border-radius: 10px;
-            padding: 10px;
-            background-color: white;
-        }
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 20px;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: white;
+}
 
-        .chat-message {
-            padding: 10px;
-            border-radius: 10px;
-            margin: 5px 0;
-        }
+.chat-message {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+}
 
-        .chat-message.user {
-            background-color: #d1e7dd; /* Couleur de fond pour les messages de l'utilisateur */
-            align-self: flex-end; /* Aligne les messages de l'utilisateur à droite */
-        }
+.chat-message.user {
+    background-color: #d1e7dd;
+    margin-left: 20%;
+}
 
-        .chat-message.other {
-            background-color: #f8d7da; /* Couleur de fond pour les messages des autres */
-            align-self: flex-start; /* Aligne les messages des autres à gauche */
-        }
+.chat-message.other {
+    background-color: #f8d7da;
+    margin-right: 20%;
+}
+
+#auth-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
   
 .nav-link::after {
     content: '';
@@ -430,6 +435,43 @@ body {
     </div>
   </div>
 </section>
+
+<section id="public-chat" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center mb-5">Chat Public</h2>
+    
+    <!-- Section Authentification -->
+    <div id="auth-section" style="display: none;">
+      <form id="auth-form" onsubmit="handleAuth(event)" class="text-center">
+        <div class="mb-3">
+          <input type="text" id="username" class="form-control mx-auto" style="max-width: 300px;" placeholder="Nom d'utilisateur" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" id="password" class="form-control mx-auto" style="max-width: 300px;" placeholder="Mot de passe" required>
+        </div>
+        <div>
+          <button type="submit" id="login" class="btn btn-primary me-2">Connexion</button>
+          <button type="submit" id="register" class="btn btn-secondary">Inscription</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Section Chat -->
+    <div id="chat-section" style="display: none;">
+      <div id="chat-box" class="chat-container mb-3"></div>
+      <form id="chat-form" onsubmit="sendMessage(event)" class="mt-3">
+        <div class="input-group" style="max-width: 600px; margin: 0 auto;">
+          <input type="text" id="message-input" class="form-control" placeholder="Votre message..." required>
+          <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+      </form>
+      <div class="text-center mt-3">
+        <button onclick="logout()" class="btn btn-danger">Déconnexion</button>
+      </div>
+    </div>
+  </div>
+</section>
+
     
 <section id="reseaux" class="py-5">
   <div class="container">
@@ -496,6 +538,122 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 });
+
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script>
+const BACKEND_URL = 'https://pokemon-stalactite-chat.onrender.com';
+const chatSocket = io(BACKEND_URL);
+let currentUser = null;
+
+// Gestion de l'authentification
+async function handleAuth(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const isLogin = event.submitter.id === 'login';
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/auth/${isLogin ? 'login' : 'register'}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem('token', data.token);
+            currentUser = data.username;
+            showChat();
+            loadMessages();
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        alert('Erreur lors de l\'authentification');
+    }
+}
+
+function displayMessage(message) {
+    const chatBox = document.getElementById('chat-box');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${message.username === currentUser ? 'user' : 'other'}`;
+    messageDiv.innerHTML = `
+        <strong>${message.username}</strong>: ${message.content}
+        <small class="text-muted">${new Date(message.timestamp).toLocaleTimeString()}</small>
+    `;
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function loadMessages() {
+    try {
+        const response = await fetch(`${BACKEND_URL}/messages`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        const messages = await response.json();
+        const chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML = '';
+        messages.forEach(displayMessage);
+    } catch (error) {
+        console.error('Erreur lors du chargement des messages');
+    }
+}
+
+async function sendMessage(event) {
+    event.preventDefault();
+    const messageInput = document.getElementById('message-input');
+    const content = messageInput.value.trim();
+    
+    if (!content) return;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ content })
+        });
+
+        if (response.ok) {
+            messageInput.value = '';
+        }
+    } catch (error) {
+        alert('Erreur lors de l\'envoi du message');
+    }
+}
+
+chatSocket.on('newMessage', displayMessage);
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        showChat();
+        loadMessages();
+    } else {
+        showAuth();
+    }
+});
+
+function showAuth() {
+    document.getElementById('auth-section').style.display = 'block';
+    document.getElementById('chat-section').style.display = 'none';
+}
+
+function showChat() {
+    document.getElementById('auth-section').style.display = 'none';
+    document.getElementById('chat-section').style.display = 'block';
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    currentUser = null;
+    showAuth();
+}
+</script>
+
 
 // Function to create DevLog entries
 function createDevLogEntries() {
