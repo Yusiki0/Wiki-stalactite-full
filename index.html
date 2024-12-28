@@ -539,6 +539,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 <script>
 const BACKEND_URL = 'https://pokemon-stalactite-chat.onrender.com';
@@ -652,27 +653,26 @@ function logout() {
     currentUser = null;
     showAuth();
 }
-</script>
 
-
-// Function to create DevLog entries
+// Fonction pour créer les entrées du DevLog
 function createDevLogEntries() {
-  const devlogContainer = document.getElementById('devlog-entries');
-  devlogEntries.forEach(entry => {
-    const entryElement = document.createElement('div');
-    entryElement.className = 'col-lg-6 mb-4';
-    entryElement.innerHTML = `
-      <div class="devlog-entry">
-        <div class="devlog-date">${entry.date}</div>
-        <h3 class="devlog-title">${entry.title}</h3>
-        <p class="devlog-content">${entry.content}</p>
-      </div>
-    `;
-    devlogContainer.appendChild(entryElement);
-  });
+    const devlogEntries = []; // Ajoutez vos entrées ici
+    const devlogContainer = document.getElementById('devlog-entries');
+    devlogEntries.forEach(entry => {
+        const entryElement = document.createElement('div');
+        entryElement.className = 'col-lg-6 mb-4';
+        entryElement.innerHTML = `
+            <div class="devlog-entry">
+                <div class="devlog-date">${entry.date}</div>
+                <h3 class="devlog-title">${entry.title}</h3>
+                <p class="devlog-content">${entry.content}</p>
+            </div>
+        `;
+        devlogContainer.appendChild(entryElement);
+    });
 }
 
-// Call the function to create DevLog entries
-createDevLogEntries();
+// Appel de la fonction pour créer les entrées du DevLog
+document.addEventListener('DOMContentLoaded', createDevLogEntries);
 </script>
 </body></html>
