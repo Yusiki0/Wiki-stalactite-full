@@ -66,6 +66,44 @@ body {
     margin-right: 20%;
 }
 
+.admin-username {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.delete-btn {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.chat-message:hover .delete-btn {
+    display: block;
+}
+
+.delete-btn:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.timestamp {
+    display: block;
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.message-content {
+    word-break: break-word;
+}
+
 #auth-form {
     max-width: 400px;
     margin: 0 auto;
@@ -575,14 +613,55 @@ async function handleAuth(event) {
 function displayMessage(message) {
     const chatBox = document.getElementById('chat-box');
     const messageDiv = document.createElement('div');
-    messageDiv.className = `chat-message ${message.username === currentUser ? 'user' : 'other'}`;
+    const isCurrentUser = message.username === currentUser;
+    const isAdmin = message.username === 'Administrateur';
+
+    messageDiv.className = `chat-message ${isCurrentUser ? 'user' : 'other'}`;
+    messageDiv.setAttribute('data-message-id', message._id);
+
+    const adminControls = currentUser === 'Administrateur' ? 
+        `<button onclick="deleteMessage('${message._id}')" class="delete-btn">
+            <i class="fas fa-trash"></i>
+         </button>` : '';
+
     messageDiv.innerHTML = `
-        <strong>${message.username}</strong>: ${message.content}
-        <small class="text-muted">${new Date(message.timestamp).toLocaleTimeString()}</small>
+        <div class="message-content">
+            <strong class="${isAdmin ? 'admin-username' : ''}">${message.username}</strong>
+            <span>${message.content}</span>
+            <small class="timestamp">${new Date(message.timestamp).toLocaleTimeString()}</small>
+            ${adminControls}
+        </div>
     `;
+
     chatBox.appendChild(messageDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+async function deleteMessage(messageId) {
+    if (currentUser !== 'Administrateur') return;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/messages/${messageId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) throw new Error('Erreur lors de la suppression');
+    } catch (error) {
+        console.error('Erreur de suppression:', error);
+        alert('Erreur lors de la suppression du message');
+    }
+}
+
+// Écouteur pour la suppression des messages
+chatSocket.on('deleteMessage', (messageId) => {
+    const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+    if (messageElement) {
+        messageElement.remove();
+    }
+});
 
 async function loadMessages() {
     try {
@@ -602,7 +681,7 @@ async function sendMessage(event) {
     event.preventDefault();
     const messageInput = document.getElementById('message-input');
     const content = messageInput.value.trim();
-    
+
     if (!content) return;
 
     try {
