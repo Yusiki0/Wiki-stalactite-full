@@ -569,50 +569,30 @@ body {
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', (event) => {
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('navbar-scrolled');
-        } else {
-            navbar.classList.remove('navbar-scrolled');
-        }
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-});
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
 <script>
 const BACKEND_URL = 'https://pokemon-stalactite-chat.onrender.com';
 const chatSocket = io(BACKEND_URL);
 let currentUser = null;
+let deviceId = null;
 
-// GÉNÉRER ou RÉCUPÉRER un ID unique pour le device
-function generateDeviceId() {
-    let deviceId = localStorage.getItem('device_id');
-    if (!deviceId) {
-        deviceId = 'device-' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-        localStorage.setItem('device_id', deviceId);
+// GÉNÉRER ou RÉCUPÉRER un ID unique pour le device via FingerprintJS
+async function generateDeviceId() {
+    if (localStorage.getItem('device_id')) {
+        deviceId = localStorage.getItem('device_id');
+        return deviceId;
     }
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+    deviceId = result.visitorId;
+    localStorage.setItem('device_id', deviceId);
     return deviceId;
 }
 
 // Vérifier si ce device est banni
 async function checkBan() {
-    const deviceId = generateDeviceId();
+    await generateDeviceId();
     try {
         const response = await fetch(`${BACKEND_URL}/ban/check-ban`, {
             method: 'POST',
@@ -621,7 +601,7 @@ async function checkBan() {
         });
         const data = await response.json();
         if (data.banned) {
-            alert("Vous avez enfreint les règles du Public Chat de Pokémon Stalactite.\n\nVous êtes définitivement banni pour cause de SPAM.\n\nSi vous pensez que c'est une erreur, contactez un administrateur.");
+            alert("⛔ Vous êtes banni pour avoir enfreint les règles.\nContactez un admin si c'est une erreur.");
             document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>⛔ Accès interdit.</h1>";
             throw new Error('Banned user');
         }
@@ -641,7 +621,7 @@ async function handleAuth(event) {
         const response = await fetch(`${BACKEND_URL}/auth/${isLogin ? 'login' : 'register'}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password, deviceId })
         });
 
         const data = await response.json();
@@ -662,15 +642,15 @@ function displayMessage(message) {
     const chatBox = document.getElementById('chat-box');
     const messageDiv = document.createElement('div');
     const isCurrentUser = message.username === currentUser;
-    const isAdmin = currentUser === 'Administrateur'; // Vérifie si l'utilisateur actuel est admin
+    const isAdmin = currentUser === 'Administrateur';
 
     messageDiv.className = `chat-message ${isCurrentUser ? 'user' : 'other'}`;
     messageDiv.setAttribute('data-message-id', message._id);
 
-    const deleteButton = isAdmin ? 
+    const deleteButton = isAdmin ?
         `<button onclick="deleteMessage('${message._id}')" class="delete-button">
             <i class="fas fa-trash"></i>
-         </button>` : '';
+        </button>` : '';
 
     messageDiv.innerHTML = `
         <div class="message-content">
@@ -687,7 +667,6 @@ function displayMessage(message) {
 
 async function deleteMessage(messageId) {
     if (currentUser !== 'Administrateur') return;
-
     try {
         const response = await fetch(`${BACKEND_URL}/messages/${messageId}`, {
             method: 'DELETE',
@@ -697,23 +676,17 @@ async function deleteMessage(messageId) {
         });
 
         if (!response.ok) throw new Error('Erreur lors de la suppression');
-        
+
         const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
-        if (messageElement) {
-            messageElement.remove();
-        }
+        if (messageElement) messageElement.remove();
     } catch (error) {
-        console.error('Erreur de suppression:', error);
         alert('Erreur lors de la suppression du message');
     }
 }
 
-// Écouteur pour la suppression des messages
 chatSocket.on('deleteMessage', (messageId) => {
     const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
-    if (messageElement) {
-        messageElement.remove();
-    }
+    if (messageElement) messageElement.remove();
 });
 
 async function loadMessages() {
@@ -734,7 +707,6 @@ async function sendMessage(event) {
     event.preventDefault();
     const messageInput = document.getElementById('message-input');
     const content = messageInput.value.trim();
-
     if (!content) return;
 
     try {
@@ -759,7 +731,7 @@ chatSocket.on('newMessage', displayMessage);
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', async () => {
-    await checkBan(); // Vérifier AVANT !!!! toute action !!!
+    await checkBan(); // D'abord vérifier le ban
     const token = localStorage.getItem('token');
     if (token) {
         showChat();
@@ -785,4 +757,6 @@ function logout() {
     showAuth();
 }
 </script>
+
+
 </body></html>
