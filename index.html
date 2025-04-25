@@ -785,26 +785,4 @@ function logout() {
     showAuth();
 }
 </script>
-
-// Fonction pour créer les entrées du DevLog
-function createDevLogEntries() {
-    const devlogEntries = []; // Ajoutez vos entrées ici
-    const devlogContainer = document.getElementById('devlog-entries');
-    devlogEntries.forEach(entry => {
-        const entryElement = document.createElement('div');
-        entryElement.className = 'col-lg-6 mb-4';
-        entryElement.innerHTML = `
-            <div class="devlog-entry">
-                <div class="devlog-date">${entry.date}</div>
-                <h3 class="devlog-title">${entry.title}</h3>
-                <p class="devlog-content">${entry.content}</p>
-            </div>
-        `;
-        devlogContainer.appendChild(entryElement);
-    });
-}
-
-// Appel de la fonction pour créer les entrées du DevLog
-document.addEventListener('DOMContentLoaded', createDevLogEntries);
-</script>
 </body></html>
