@@ -600,6 +600,36 @@ const BACKEND_URL = 'https://pokemon-stalactite-chat.onrender.com';
 const chatSocket = io(BACKEND_URL);
 let currentUser = null;
 
+// GÉNÉRER ou RÉCUPÉRER un ID unique pour le device
+function generateDeviceId() {
+    let deviceId = localStorage.getItem('device_id');
+    if (!deviceId) {
+        deviceId = 'device-' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('device_id', deviceId);
+    }
+    return deviceId;
+}
+
+// Vérifier si ce device est banni
+async function checkBan() {
+    const deviceId = generateDeviceId();
+    try {
+        const response = await fetch(`${BACKEND_URL}/ban/check-ban`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ deviceId })
+        });
+        const data = await response.json();
+        if (data.banned) {
+            alert("Vous avez enfreint les règles du Public Chat de Pokémon Stalactite.\n\nVous êtes définitivement banni pour cause de SPAM.\n\nSi vous pensez que c'est une erreur, contactez un administrateur.");
+            document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>⛔ Accès interdit.</h1>";
+            throw new Error('Banned user');
+        }
+    } catch (error) {
+        console.error('Erreur lors de la vérification du bannissement:', error);
+    }
+}
+
 // Gestion de l'authentification
 async function handleAuth(event) {
     event.preventDefault();
@@ -668,7 +698,6 @@ async function deleteMessage(messageId) {
 
         if (!response.ok) throw new Error('Erreur lors de la suppression');
         
-        // Supprimer visuellement le message si la requête réussit
         const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
         if (messageElement) {
             messageElement.remove();
@@ -729,7 +758,8 @@ async function sendMessage(event) {
 chatSocket.on('newMessage', displayMessage);
 
 // Initialisation
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await checkBan(); // Vérifier AVANT !!!! toute action !!!
     const token = localStorage.getItem('token');
     if (token) {
         showChat();
@@ -754,6 +784,7 @@ function logout() {
     currentUser = null;
     showAuth();
 }
+</script>
 
 // Fonction pour créer les entrées du DevLog
 function createDevLogEntries() {
