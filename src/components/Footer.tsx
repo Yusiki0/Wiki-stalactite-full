@@ -20,15 +20,15 @@ export const Footer = () => {
           
           <div className="socials fade">
             <a href="https://discord.gg/44uvRcuSuq" target="_blank" rel="noopener noreferrer" className="social-link">
-              <img src="/images/discord_icon.png" alt="Discord" />
+              <img src="/Wiki-stalactite-full/images/discord_icon.png" alt="Discord" />
               <span>Discord</span>
             </a>
             <a href="https://youtube.com/@Yusiki_" target="_blank" rel="noopener noreferrer" className="social-link">
-              <img src="/images/youtube_icon.png" alt="YouTube" />
+              <img src="/Wiki-stalactite-full/images/youtube_icon.png" alt="YouTube" />
               <span>YouTube</span>
             </a>
             <a href="https://x.com/Yusiki_1" target="_blank" rel="noopener noreferrer" className="social-link">
-              <img src="/images/x_icon.png" alt="X" />
+              <img src="/Wiki-stalactite-full/images/x_icon.png" alt="X" />
               <span>Twitter</span>
             </a>
           </div>

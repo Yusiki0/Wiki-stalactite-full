@@ -10,10 +10,10 @@ export const Protagonists = () => {
         <div className="content protagonistes">
           <div className="protagonists-images">
             <div className="image-container fade">
-              <img src="/images/image_prota_1.png" alt="Protagoniste 1" />
+              <img src="/Wiki-stalactite-full/images/image_prota_1.png" alt="Protagoniste 1" />
             </div>
             <div className="image-container fade">
-              <img src="/images/image_prota_2.png" alt="Protagoniste 2" />
+              <img src="/Wiki-stalactite-full/images/image_prota_2.png" alt="Protagoniste 2" />
             </div>
           </div>
           <div className="text fade">

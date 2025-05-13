@@ -9,7 +9,7 @@ export const About = () => {
         </div>
         <div className="content apropos">
           <div className="image-container fade">
-            <img src="/images/image_region.png" alt="Région de Clitados" />
+            <img src="/Wiki-stalactite-full/images/image_region.png" alt="Région de Clitados" />
           </div>
           <div className="text fade">
             <p>

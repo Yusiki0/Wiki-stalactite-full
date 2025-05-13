@@ -20,7 +20,7 @@ export const Synopsis = () => {
             </p>
           </div>
           <div className="image-container fade">
-            <img src="/images/image_logo.png" alt="Logo Pokémon Stalactite" />
+            <img src="/Wiki-stalactite-full/images/image_logo.png" alt="Logo Pokémon Stalactite" />
           </div>
         </div>
       </div>
