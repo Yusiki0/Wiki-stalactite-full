@@ -1,0 +1,125 @@
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.screenshot-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  aspect-ratio: 16 / 10;
+}
+
+.screenshot-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  z-index: 10;
+}
+
+.screenshot-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.screenshot-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.screenshot-item:hover .screenshot-image img {
+  transform: scale(1.08);
+}
+
+.screenshot-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 1.5rem 1rem 0.8rem;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.screenshot-item:hover .screenshot-overlay {
+  transform: translateY(0);
+}
+
+.screenshot-overlay span {
+  display: block;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.screenshot-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.screenshot-modal img {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .screenshots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .screenshots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  .screenshot-overlay {
+    padding: 1rem 0.8rem 0.6rem;
+  }
+  
+  .screenshot-overlay span {
+    font-size: 0.9rem;
+  }
+}

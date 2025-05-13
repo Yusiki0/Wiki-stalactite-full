@@ -1,0 +1,107 @@
+.hero {
+  background: url('/images/hero_background.png') center/cover no-repeat;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  margin-top: 0;
+  padding: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.hero p {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  margin-bottom: 2rem;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.hero-button.primary {
+  background-color: var(--color-accent);
+  color: white;
+  border: 2px solid var(--color-accent);
+}
+
+.hero-button.secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.hero-button.primary:hover {
+  background-color: #2563EB;
+  border-color: #2563EB;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero-button.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 500px;
+    padding-top: 4rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  
+  .hero-button {
+    width: 80%;
+    text-align: center;
+  }
+}
