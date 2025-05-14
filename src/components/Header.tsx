@@ -40,7 +40,7 @@ export const Header = ({ scrolled }: HeaderProps) => {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
         <div className="logo">
-          <img src="/Wiki-stalactite-full/images/image_logo.png" alt="Pokémon Stalactite logo" />
+          <img src="https://i.postimg.cc/BZyjwF6d/image-logo.png" alt="Pokémon Stalactite logo" />
         </div>
         
         <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>

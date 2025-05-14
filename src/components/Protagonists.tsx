@@ -10,17 +10,17 @@ export const Protagonists = () => {
         <div className="content protagonistes">
           <div className="protagonists-images">
             <div className="image-container fade">
-              <img src="/Wiki-stalactite-full/images/image_prota_1.png" alt="Protagoniste 1" />
+              <img src="https://i.postimg.cc/5jdN9wQy/image-prota-1.png" alt="Protagoniste 1" />
             </div>
             <div className="image-container fade">
-              <img src="/Wiki-stalactite-full/images/image_prota_2.png" alt="Protagoniste 2" />
+              <img src="https://i.postimg.cc/YSp0mfnm/image-prota-2.png" alt="Protagoniste 2" />
             </div>
           </div>
           <div className="text fade">
             <p>
               Au début de votre aventure vous incarnez un jeune garçon ou une jeune
               fille de 15 ans. Choisissez votre apparence selon votre préférence !
-              Les PNJ réagiront en fonction de votre genre.
+              Les PNJ réagiront en fonction de votre genre. Les artworks affichés ci-dessus ne sont pas définitifs ; un rework aura probablement lieu.
             </p>
             <div className="character-traits">
               <div className="trait">

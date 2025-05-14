@@ -6,14 +6,14 @@ export const Screenshots = () => {
   const [modalImage, setModalImage] = useState<string | null>(null);
   
   const screenshots = [
-    { image: '/images/image1.png', caption: 'Bourg Kona' },
-    { image: '/images/image2.png', caption: 'Rocaville' },
-    { image: '/images/image3.png', caption: 'Centre Pokémon' },
-    { image: '/images/image4.png', caption: 'Grotte Casir' },
-    { image: '/images/image5.png', caption: 'Route 5' },
-    { image: '/images/image6.png', caption: 'Station de Ski' },
-    { image: '/images/image7.png', caption: 'Route 8' },
-    { image: '/images/image8.png', caption: 'Arène de Basterne' }
+    { image: 'https://i.postimg.cc/gk83VsDM/image1.png', caption: 'Bourg Kona' },
+    { image: 'https://i.postimg.cc/4xGVBc2X/image2.png', caption: 'Rocaville' },
+    { image: 'https://i.postimg.cc/gcfvLQvX/image3.png', caption: 'Centre Pokémon' },
+    { image: 'https://i.postimg.cc/Kz1MRDjD/image4.png', caption: 'Grotte Casir' },
+    { image: 'https://i.postimg.cc/KYqTGHGY/image5.png', caption: 'Route 5' },
+    { image: 'https://i.postimg.cc/wvnsJRs8/image6.png', caption: 'Station de Ski' },
+    { image: 'https://i.postimg.cc/PqxLRQWn/image7.png', caption: 'Route 8' },
+    { image: 'https://i.postimg.cc/RZG6dDnT/image8.png', caption: 'Arène de Basterne' }
   ];
 
   const openModal = (image: string) => {
