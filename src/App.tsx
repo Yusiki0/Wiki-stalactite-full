@@ -40,7 +40,7 @@ function App() {
 
     // Check if we should show FAQ page based on URL
     const path = window.location.pathname;
-    setShowFAQ(path === 'Wiki-stalactite-full/faq');
+    setShowFAQ(path === '/faq');
 
     // Handle browser back/forward
     window.addEventListener('popstate', () => {
