@@ -10,7 +10,7 @@ export const Protagonists = () => {
         <div className="content protagonistes">
           <div className="protagonists-images">
             <div className="image-container fade">
-              <img src="https://i.postimg.cc/5jdN9wQy/image-prota-1.png" alt="Protagoniste 1" />
+              <img src="https://i.postimg.cc/kMxydsnF/Prota-fiverr-male.png" alt="Protagoniste 1" />
             </div>
             <div className="image-container fade">
               <img src="https://i.postimg.cc/YSp0mfnm/image-prota-2.png" alt="Protagoniste 2" />
