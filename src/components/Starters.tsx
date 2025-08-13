@@ -9,12 +9,12 @@ export const Starters = () => {
     },
     {
       name: 'Feuriglou',
-      image: 'https://cdn.monsite.com/images/004_Feurigloup_artwork_return.png',
+      image: 'images/004_Feurigloup_artwork_return.png',
       type: 'Type feu / glace',
     },
     {
       name: 'Lébullio',
-      image: 'https://cdn.monsite.com/images/007_Lebullio_artwork_return.png',
+      image: 'images/007_Lebullio_artwork_return.png',
       type: 'Type eau / glace',
     }
   ];
