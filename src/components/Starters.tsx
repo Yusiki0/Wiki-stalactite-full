@@ -4,17 +4,17 @@ export const Starters = () => {
   const starters = [
     {
       name: 'Cherbi',
-      image: '.../public/images/001_Cherbi_artwork.png',
+      image: 'https://postimg.cc/Ff8cFCrw',
       type: 'Type plante / glace',
     },
     {
       name: 'Feuriglou',
-      image: '.../public/images/004_Feurigloup_artwork_return.png',
+      image: 'https://cdn.monsite.com/images/004_Feurigloup_artwork_return.png',
       type: 'Type feu / glace',
     },
     {
       name: 'Lébullio',
-      image: '.../public/images/007_Lebullio_artwork_return.png',
+      image: 'https://cdn.monsite.com/images/007_Lebullio_artwork_return.png',
       type: 'Type eau / glace',
     }
   ];
@@ -30,7 +30,11 @@ export const Starters = () => {
             {starters.map((starter, index) => (
               <div key={index} className="starter-card fade">
                 <div className="starter-image">
-                  <img src={starter.image} alt={starter.name} />
+                  <img 
+                    src={starter.image} 
+                    alt={starter.name} 
+                    loading="lazy" 
+                  />
                 </div>
                 <div className="starter-info">
                   <h3>{starter.name}</h3>
@@ -40,7 +44,9 @@ export const Starters = () => {
             ))}
           </div>
           <div className="starter-tip fade">
-            <p>Chaque starter possède un double-type incluant le type glace, leur permettant de mieux s'acclimater au froid de la région.</p>
+            <p>
+              Chaque starter possède un double-type incluant le type glace, leur permettant de mieux s'acclimater au froid de la région.
+            </p>
           </div>
         </div>
       </div>
