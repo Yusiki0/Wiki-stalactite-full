@@ -4,17 +4,17 @@ export const Starters = () => {
   const starters = [
     {
       name: 'Cherbi',
-      image: 'images/001_Cherbi_artwork.png',
+      image: '/images/001_Cherbi_artwork.png',
       type: 'Type plante / glace',
     },
     {
       name: 'Feuriglou',
-      image: 'images/004_Feurigloup_artwork_return.png',
+      image: '/images/004_Feurigloup_artwork_return.png',
       type: 'Type feu / glace',
     },
     {
       name: 'Lébullio',
-      image: 'images/007_Lebullio_artwork_return.png',
+      image: '/images/007_Lebullio_artwork_return.png',
       type: 'Type eau / glace',
     }
   ];
