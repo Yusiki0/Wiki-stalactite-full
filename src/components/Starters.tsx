@@ -4,7 +4,7 @@ export const Starters = () => {
   const starters = [
     {
       name: 'Cherbi',
-      image: 'https://postimg.cc/Ff8cFCrw',
+      image: "https://postimg.cc/Ff8cFCrw",
       type: 'Type plante / glace',
     },
     {
