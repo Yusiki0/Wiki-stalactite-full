@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import '../styles/header.css';
 
 interface HeaderProps {
@@ -16,7 +15,9 @@ export const Header = ({ scrolled }: HeaderProps) => {
       sections.forEach(section => {
         const sectionTop = section.getBoundingClientRect().top;
         const sectionId = section.getAttribute('id') || '';
-        if (sectionTop < 100 && sectionTop > -300) setActiveLink(sectionId);
+        if (sectionTop < 100 && sectionTop > -300) {
+          setActiveLink(sectionId);
+        }
       });
     };
 
@@ -26,9 +27,13 @@ export const Header = ({ scrolled }: HeaderProps) => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const href = e.currentTarget.getAttribute('href');
+    // Si c'est un lien ancre interne
     if (href?.startsWith('#')) {
       e.preventDefault();
-      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      window.location.href = href;
+      setMobileMenuOpen(false);
+    } else {
+      // Pour une vraie route
       setMobileMenuOpen(false);
     }
   };
@@ -37,21 +42,69 @@ export const Header = ({ scrolled }: HeaderProps) => {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
         <div className="logo">
-          <img src="https://i.postimg.cc/BZyjwF6d/image-logo.png" alt="Pokémon Stalactite logo" />
+          <img
+            src="https://i.postimg.cc/BZyjwF6d/image-logo.png"
+            alt="Pokémon Stalactite logo"
+          />
         </div>
 
-        <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          <span></span><span></span><span></span>
+        <button
+          className="mobile-menu-toggle"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
 
         <nav className={`nav ${mobileMenuOpen ? 'open' : ''}`}>
-          <a href="#apropos" className={activeLink === 'apropos' ? 'active' : ''} onClick={handleNavClick}>À propos</a>
-          <a href="#synopsis" className={activeLink === 'synopsis' ? 'active' : ''} onClick={handleNavClick}>Synopsis</a>
-          <a href="#protagonistes" className={activeLink === 'protagonistes' ? 'active' : ''} onClick={handleNavClick}>Protagonistes</a>
-          <a href="#starters" className={activeLink === 'starters' ? 'active' : ''} onClick={handleNavClick}>Starters</a>
-          <a href="#screenshots" className={activeLink === 'screenshots' ? 'active' : ''} onClick={handleNavClick}>Screenshots</a>
-          <NavLink to="/pokedex" className={({ isActive }) => isActive ? 'active' : ''}>Pokédex</NavLink>
-          <NavLink to="/faq" className={({ isActive }) => isActive ? 'active' : ''}>FAQ</NavLink>
+          <a
+            href="https://pokemon-stalactite.fr#apropos"
+            className={activeLink === 'apropos' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            À propos
+          </a>
+          <a
+            href="https://pokemon-stalactite.fr#synopsis"
+            className={activeLink === 'synopsis' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            Synopsis
+          </a>
+          <a
+            href="https://pokemon-stalactite.fr#protagonistes"
+            className={activeLink === 'protagonistes' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            Protagonistes
+          </a>
+          <a
+            href="https://pokemon-stalactite.fr#starters"
+            className={activeLink === 'starters' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            Starters
+          </a>
+          <a
+            href="https://pokemon-stalactite.fr#screenshots"
+            className={activeLink === 'screenshots' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            Screenshots
+          </a>
+          {/* Lien vers la vraie route /pokedex */}
+          <a href="/pokedex" onClick={handleNavClick}>
+            Pokédex
+          </a>
+          <a
+            href="https://pokemon-stalactite.fr#reseaux"
+            className={activeLink === 'reseaux' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            Réseaux
+          </a>
+          <a href="/faq">FAQ</a>
         </nav>
       </div>
     </header>
