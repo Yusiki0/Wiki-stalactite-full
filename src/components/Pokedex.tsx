@@ -34,7 +34,7 @@ export const Pokedex = () => {
       { number: 20, name: 'Persian de Citados', types: ['Glace'] },
       { number: 21, name: 'Alcari', types: ['Glace'] },
       { number: 22, name: 'Alkelen', types: ['Glace'] },
-      { number: 23, name: 'Alkerex', types: ['Glace', 'Vol'] },
+      { number: 23, name: 'Alkerex', types: ['Glace', 'Combat'] },
       { number: 24, name: 'Goupix d\'Alola', types: ['Glace'] },
       { number: 25, name: 'Feunard d\'Alola', types: ['Glace', 'Fée'] },
       { number: 26, name: 'Togedemaru', types: ['Électrik', 'Acier'] },
