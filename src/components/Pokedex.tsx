@@ -74,7 +74,7 @@ export const Pokedex = () => {
       { number: 60, name: 'Météno', types: ['Roche', 'Vol'] },
       { number: 61, name: 'Amagara', types: ['Roche', 'Sol'] },
       { number: 62, name: 'Dragmara', types: ['Roche', 'Glace'] },
-      { number: 63, name: 'Maracachi', types: ['Roche', 'Plante'] },
+      { number: 63, name: 'Maracachi', types: ['Plante'] },
       { number: 64, name: 'Blizzi', types: ['Plante', 'Glace'] },
       { number: 65, name: 'Blizzaroi', types: ['Plante', 'Glace'] },
       { number: 66, name: 'Arakdo', types: ['Insecte', 'Eau'] },
