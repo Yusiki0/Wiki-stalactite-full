@@ -23,37 +23,40 @@
 
 .pokedex-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 0.6rem;
+  border-collapse: collapse; /* lignes continues */
 }
 
 .pokedex-table th, 
 .pokedex-table td {
   text-align: left;
   padding: 0.8rem 1rem;
+  border: 1px solid #000; /* lignes noires */
+}
+
+.pokedex-table th {
+  background: #f1f1f1;
+  font-weight: 700;
 }
 
 .pokedex-table tbody tr {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .pokedex-table tbody tr:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #fafafa;
 }
 
 /* Colonne image */
 .pokemon-icon {
   width: 40px;
   height: 40px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #f7f7f7;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid #ddd;
 }
 
 .pokemon-icon img {
