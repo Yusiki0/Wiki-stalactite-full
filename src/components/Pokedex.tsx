@@ -5,7 +5,6 @@ interface Pokemon {
   number: number;
   name: string;
   types: string[];
-  image?: string;
 }
 
 export const Pokedex = () => {
@@ -165,7 +164,7 @@ export const Pokedex = () => {
       { number: 150, name: 'Bekipan', types: ['Eau', 'Vol'] },
       { number: 151, name: 'Évoli de Citados', types: ['Spectre'] },
     ];
-    setPokemonList(pokemons);
+      setPokemonList(pokemons);
   }, []);
 
   const typeColors: Record<string, string> = {
@@ -195,30 +194,42 @@ export const Pokedex = () => {
         <h1>Pokédex de Citados</h1>
         <p>Découvrez tous les Pokémon et formes régionales de la région de Citados.</p>
       </div>
-      <div className="pokedex-list">
-        {pokemonList.map(pokemon => (
-          <div key={pokemon.number} className="pokemon-detail">
-            <div className="pokemon-image">
-              {pokemon.image ? (
-                <img src={pokemon.image} alt={pokemon.name} />
-              ) : (
-                <div className="placeholder">❓</div>
-              )}
-            </div>
-            <div className="pokemon-info">
-              <span className="pokemon-number">#{pokemon.number}</span>
-              <h3 className="pokemon-name">{pokemon.name}</h3>
-              <div className="pokemon-types">
-                {pokemon.types.map(type => (
-                  <span key={type} className="pokemon-type" style={{ backgroundColor: typeColors[type] || '#777' }}>
-                    {type}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <table className="pokedex-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th>Types</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pokemonList.map((pokemon) => (
+            <tr key={pokemon.number}>
+              <td>
+                <span className="pokemon-number">
+                  #{pokemon.number.toString().padStart(3, '0')}
+                </span>
+              </td>
+              <td>
+                <span className="pokemon-name">{pokemon.name}</span>
+              </td>
+              <td>
+                <div className="pokemon-types">
+                  {pokemon.types.map((type) => (
+                    <span
+                      key={type}
+                      className="pokemon-type"
+                      style={{ backgroundColor: typeColors[type] || '#777' }}
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
