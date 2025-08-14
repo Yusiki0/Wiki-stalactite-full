@@ -146,7 +146,7 @@ export const Pokedex = () => {
       { number: 132, name: 'Cochignon', types: ['Glace', 'Sol'] },
       { number: 133, name: 'Mammochon', types: ['Glace', 'Sol'] },
       { number: 134, name: 'Grelaçon', types: ['Glace'] },
-      { number: 135, name: 'Séracrawl de Hisui', types: ['Glace', 'Roche'] },
+      { number: 135, name: 'Séracrawl', types: ['Glace'] },
       { number: 136, name: 'Vivaldaim', types: ['Normal', 'Plante'] },
       { number: 137, name: 'Haydaim', types: ['Normal', 'Plante'] },
       { number: 138, name: 'Racaillou', types: ['Roche', 'Sol'] },
