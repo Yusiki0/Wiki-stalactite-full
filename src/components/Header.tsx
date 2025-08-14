@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import '../styles/header.css';
 
 interface HeaderProps {
@@ -12,14 +13,10 @@ export const Header = ({ scrolled }: HeaderProps) => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('section[id]');
-      
       sections.forEach(section => {
         const sectionTop = section.getBoundingClientRect().top;
         const sectionId = section.getAttribute('id') || '';
-        
-        if (sectionTop < 100 && sectionTop > -300) {
-          setActiveLink(sectionId);
-        }
+        if (sectionTop < 100 && sectionTop > -300) setActiveLink(sectionId);
       });
     };
 
@@ -31,7 +28,7 @@ export const Header = ({ scrolled }: HeaderProps) => {
     const href = e.currentTarget.getAttribute('href');
     if (href?.startsWith('#')) {
       e.preventDefault();
-      window.location.href = href;
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
       setMobileMenuOpen(false);
     }
   };
@@ -42,67 +39,21 @@ export const Header = ({ scrolled }: HeaderProps) => {
         <div className="logo">
           <img src="https://i.postimg.cc/BZyjwF6d/image-logo.png" alt="Pokémon Stalactite logo" />
         </div>
-        
+
         <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </button>
 
         <nav className={`nav ${mobileMenuOpen ? 'open' : ''}`}>
-          <a 
-            href="https://pokemon-stalactite.fr#apropos" 
-            className={activeLink === 'apropos' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            À propos
-          </a>
-          <a 
-            href="https://pokemon-stalactite.fr#synopsis" 
-            className={activeLink === 'synopsis' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            Synopsis
-          </a>
-          <a 
-            href="https://pokemon-stalactite.fr#protagonistes" 
-            className={activeLink === 'protagonistes' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            Protagonistes
-          </a>
-          <a 
-            href="https://pokemon-stalactite.fr#starters" 
-            className={activeLink === 'starters' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            Starters
-          </a>
-          <a 
-            href="https://pokemon-stalactite.fr#screenshots" 
-            className={activeLink === 'screenshots' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            Screenshots
-          </a>
-          <a 
-            href="https://pokemon-stalactite.fr#reseaux" 
-            className={activeLink === 'reseaux' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            Réseaux
-          </a>
-          <a 
-            href="https://pokemon-stalactite.fr#pokedex" 
-            className={activeLink === 'pokedex' ? 'active' : ''}
-            onClick={handleNavClick}
-          >
-            Réseaux
-          </a>
-          
-          <a href="/faq">FAQ</a>
+          <a href="#apropos" className={activeLink === 'apropos' ? 'active' : ''} onClick={handleNavClick}>À propos</a>
+          <a href="#synopsis" className={activeLink === 'synopsis' ? 'active' : ''} onClick={handleNavClick}>Synopsis</a>
+          <a href="#protagonistes" className={activeLink === 'protagonistes' ? 'active' : ''} onClick={handleNavClick}>Protagonistes</a>
+          <a href="#starters" className={activeLink === 'starters' ? 'active' : ''} onClick={handleNavClick}>Starters</a>
+          <a href="#screenshots" className={activeLink === 'screenshots' ? 'active' : ''} onClick={handleNavClick}>Screenshots</a>
+          <NavLink to="/pokedex" className={({ isActive }) => isActive ? 'active' : ''}>Pokédex</NavLink>
+          <NavLink to="/faq" className={({ isActive }) => isActive ? 'active' : ''}>FAQ</NavLink>
         </nav>
       </div>
     </header>
   );
-}
+};
