@@ -92,6 +92,14 @@ export const Header = ({ scrolled }: HeaderProps) => {
           >
             Réseaux
           </a>
+          <a 
+            href="https://pokemon-stalactite.fr#pokedex" 
+            className={activeLink === 'pokedex' ? 'active' : ''}
+            onClick={handleNavClick}
+          >
+            Réseaux
+          </a>
+          
           <a href="/faq">FAQ</a>
         </nav>
       </div>
