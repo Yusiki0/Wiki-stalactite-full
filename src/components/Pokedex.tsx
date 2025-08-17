@@ -13,7 +13,7 @@ export const Pokedex = () => {
   useEffect(() => {
     const pokemons: Pokemon[] = [
       { number: 1, name: 'Cherbi', types: ['Plante', 'Glace'] },
-      { number: 2, name: 'Cornegivre', types: ['Plante', 'Glace'] },
+      { number: 2, name: 'Sylveris', types: ['Plante', 'Glace'] },
       { number: 3, name: 'Bouccolère', types: ['Plante', 'Glace'] },
       { number: 4, name: 'Feuriglou', types: ['Feu', 'Glace'] },
       { number: 5, name: 'Pyroflair', types: ['Feu', 'Glace'] },
