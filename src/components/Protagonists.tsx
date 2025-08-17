@@ -13,7 +13,7 @@ export const Protagonists = () => {
               <img src="https://i.postimg.cc/kMxydsnF/Prota-fiverr-male.png" alt="Protagoniste 1" />
             </div>
             <div className="image-container fade">
-              <img src="https://i.postimg.cc/YSp0mfnm/image-prota-2.png" alt="Protagoniste 2" />
+              <img src="https://i.postimg.cc/C5hD0NVF/FEMALE-VERSION-copy.png" alt="Protagoniste 2" />
             </div>
           </div>
           <div className="text fade">
