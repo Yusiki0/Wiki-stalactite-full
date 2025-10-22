@@ -105,6 +105,7 @@ export const Header = ({ scrolled }: HeaderProps) => {
             Réseaux
           </a>
           <a href="/faq">FAQ</a>
+          <a href="/credits">Crédits</a>
         </nav>
       </div>
     </header>
