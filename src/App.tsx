@@ -10,7 +10,7 @@ import { Screenshots } from './components/Screenshots';
 import { Footer } from './components/Footer';
 import { FAQ } from './components/FAQ';
 import { Pokedex } from './components/Pokedex';
-import { CreditsPage } from './components/CreditsPage';
+import CreditsPage from './components/CreditsPage';
 import './styles/animations.css';
 
 function Home() {
