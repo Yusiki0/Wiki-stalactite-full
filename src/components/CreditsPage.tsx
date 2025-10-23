@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 
 type CreditGroup = {
   title: string;
@@ -32,11 +32,22 @@ const spanishPluginContribs = [
 const CreditListRenderer = ({ items }: { items: string[] }) => {
   const allNames = items.flatMap(item => item.split(/\s*\|\|\s*/)); // Sépare par '||' avec ou sans espaces
 
+  const renderName = (name: string) => {
+    if (name === 'Pokémon Workshop') {
+      return (
+        <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="text-slate-700 hover:text-slate-900 hover:underline">
+          {name}
+        </a>
+      );
+    }
+    return <span className="text-slate-700">{name}</span>;
+  };
+
   return (
     <div className="flex flex-wrap gap-x-2 gap-y-1 leading-relaxed">
       {allNames.map((name, index) => (
         <React.Fragment key={`${name}-${index}`}>
-          <span className="text-slate-700">{name}</span>
+          {renderName(name)}
           {index < allNames.length - 1 && (
             <span className="text-slate-400" aria-hidden="true">•</span>
           )}

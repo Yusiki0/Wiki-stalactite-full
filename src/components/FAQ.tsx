@@ -22,7 +22,7 @@ export const FAQ = () => {
       answer: "Toute la partie ouest de la région de Citados est enneigée, proposant donc un voyage unique avec des rencontres sauvages adaptées au climat. Diverses quêtes secondaires seront disponibles, avec de nouveaux personnages encore méconnus. Une partie de l'histoire sera centrée sur une mystérieurse organisation, qui, d'après des rumeurs, ferait des exprériences illégales sur des Pokémon innocents, à des fins obscures."
     },
     {
-      question: "Y aura-t-il des Pokémon exclusifs à Stalactite ?",
+      question: "Y aura-t-il des Pokémon exclusifs à Citados ?",
       answer: "Oui, le jeu proposera quelques formes régionales uniques, très souvent de type glace."
     },
     {
