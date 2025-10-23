@@ -13,7 +13,7 @@ export const About = () => {
           </div>
           <div className="text fade">
             <p>
-              Pokémon Stalactite est un fangame francophone développé à l'aide de <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900 hover:underline">PSDK et Pokémon Studio</a>, conçu pour offrir aux passionnés de la licence une expérience inédite et immersive dans un univers semi-enneigé.
+              Pokémon Stalactite est un fangame francophone développé à l'aide de <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">PSDK et Pokémon Studio</a>, conçu pour offrir aux passionnés de la licence une expérience inédite et immersive dans un univers semi-enneigé.
             </p>
             <p>
               Ce projet est actuellement en cours de développement et réalisé de manière indépendante par Yusiki, et l'aide de quelques personnes, avec passion et respect de l'œuvre originale.
