@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageSelector } from './LanguageSelector';
 import '../styles/header.css';
 
 interface HeaderProps {
@@ -38,6 +42,11 @@ export const Header = ({ scrolled }: HeaderProps) => {
     }
   };
 
+  const { locale } = useLanguage();
+  const intl = useIntl();
+  const navigate = useNavigate();
+  const baseUrl = locale === 'en' ? '/en' : '';
+
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
@@ -48,64 +57,70 @@ export const Header = ({ scrolled }: HeaderProps) => {
           />
         </div>
 
-        <button
-          className="mobile-menu-toggle"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div className="flex items-center gap-4">
+          <LanguageSelector />
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
 
         <nav className={`nav ${mobileMenuOpen ? 'open' : ''}`}>
           <a
-            href="https://pokemon-stalactite.fr#apropos"
+            href={`${baseUrl}#apropos`}
             className={activeLink === 'apropos' ? 'active' : ''}
             onClick={handleNavClick}
           >
-            À propos
+            {intl.formatMessage({ id: 'nav.about' })}
           </a>
           <a
-            href="https://pokemon-stalactite.fr#synopsis"
+            href={`${baseUrl}#synopsis`}
             className={activeLink === 'synopsis' ? 'active' : ''}
             onClick={handleNavClick}
           >
-            Synopsis
+            {intl.formatMessage({ id: 'nav.synopsis' })}
           </a>
           <a
-            href="https://pokemon-stalactite.fr#protagonistes"
+            href={`${baseUrl}#protagonistes`}
             className={activeLink === 'protagonistes' ? 'active' : ''}
             onClick={handleNavClick}
           >
-            Protagonistes
+            {intl.formatMessage({ id: 'nav.protagonists' })}
           </a>
           <a
-            href="https://pokemon-stalactite.fr#starters"
+            href={`${baseUrl}#starters`}
             className={activeLink === 'starters' ? 'active' : ''}
             onClick={handleNavClick}
           >
-            Starters
+            {intl.formatMessage({ id: 'nav.starters' })}
           </a>
           <a
-            href="https://pokemon-stalactite.fr#screenshots"
+            href={`${baseUrl}#screenshots`}
             className={activeLink === 'screenshots' ? 'active' : ''}
             onClick={handleNavClick}
           >
-            Screenshots
+            {intl.formatMessage({ id: 'nav.screenshots' })}
           </a>
-          {/* Lien vers la vraie route /pokedex */}
-          <a href="/pokedex" onClick={handleNavClick}>
-            Pokédex
+          <a href={`${baseUrl}/pokedex`} onClick={handleNavClick}>
+            {intl.formatMessage({ id: 'nav.pokedex' })}
           </a>
           <a
-            href="https://pokemon-stalactite.fr#reseaux"
+            href={`${baseUrl}#reseaux`}
             className={activeLink === 'reseaux' ? 'active' : ''}
             onClick={handleNavClick}
           >
             Réseaux
           </a>
-          <a href="/faq">FAQ</a>
-          <a href="/credits">Crédits</a>
+          <a href={`${baseUrl}/faq`} onClick={handleNavClick}>
+            {intl.formatMessage({ id: 'nav.faq' })}
+          </a>
+          <a href={`${baseUrl}/credits`} onClick={handleNavClick}>
+            {intl.formatMessage({ id: 'nav.credits' })}
+          </a>
         </nav>
       </div>
     </header>

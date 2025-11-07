@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -54,16 +55,23 @@ function App() {
 
   return (
     <Router>
-      <div className="app">
-        <Header scrolled={scrolled} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/pokedex" element={<Pokedex />} />
-          <Route path="/credits" element={<CreditsPage />} />
-        </Routes>
-        <Footer />
-      </div>
+      <LanguageProvider>
+        <div className="app">
+          <Header scrolled={scrolled} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/fr" element={<Home />} />
+            <Route path="/en" element={<Home />} />
+            <Route path="/fr/faq" element={<FAQ />} />
+            <Route path="/en/faq" element={<FAQ />} />
+            <Route path="/fr/pokedex" element={<Pokedex />} />
+            <Route path="/en/pokedex" element={<Pokedex />} />
+            <Route path="/fr/credits" element={<CreditsPage />} />
+            <Route path="/en/credits" element={<CreditsPage />} />
+          </Routes>
+          <Footer />
+        </div>
+      </LanguageProvider>
     </Router>
   );
 }
