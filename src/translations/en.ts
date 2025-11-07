@@ -17,7 +17,9 @@ export default {
   'hero.subtitle': 'A New Pokémon Adventure',
 
   'synopsis.title': 'Synopsis',
-  // Add all synopsis texts
+  'synopsis.p1': "Play as a young boy or girl from Bourg Kona, in the small Citados region where humans and Pokémon live in peace and harmony. In this beautiful region, snow falls heavily throughout the year.",
+  'synopsis.p2': "One day Professor Yusiki offers you to set out on a journey to earn the region's 9 badges. Choose your first companion to begin an adventure both thrilling and extraordinary!",
+  'synopsis.p3': "But... Team Yunaï will stand in your way many times! Little is known about this mysterious organization, although rumors say it seeks a regional form of Eevee... for ill intent...",
 
   'starters.title': 'Starters',
   // Add starters descriptions

@@ -33,15 +33,29 @@ export const Header = ({ scrolled }: HeaderProps) => {
     const href = e.currentTarget.getAttribute('href');
     if (!href) return;
 
-    // Si c'est une route interne (commence par /), utiliser navigate pour conserver SPA behaviour
-    if (href.startsWith('/')) {
+    // Si href contient un '#', extraire path et hash
+    const [pathPart, hashPart] = href.split('#');
+
+    // Si c'est une route interne (commence par /)
+    if (pathPart.startsWith('/')) {
       e.preventDefault();
-      navigate(href);
+      // Navigate to path (without hash)
+      const targetPath = pathPart;
+      navigate(targetPath);
+
+      // Si on a un hash, scroller après un court délai pour laisser React rendre
+      if (hashPart) {
+        setTimeout(() => {
+          const el = document.getElementById(hashPart);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      }
+
       setMobileMenuOpen(false);
       return;
     }
 
-    // Si c'est une ancre locale (ex: #apropos), naviguer sur la même page
+    // Si c'est une ancre locale pure (ex: #apropos)
     if (href.startsWith('#')) {
       e.preventDefault();
       const target = document.getElementById(href.replace('#', ''));
@@ -62,6 +76,11 @@ export const Header = ({ scrolled }: HeaderProps) => {
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
+        {/* Flags on desktop at far left */}
+        <div className="hidden md:flex items-center mr-4">
+          <LanguageSelector />
+        </div>
+
         <div className="logo">
           <img
             src="https://i.postimg.cc/BZyjwF6d/image-logo.png"
@@ -70,7 +89,11 @@ export const Header = ({ scrolled }: HeaderProps) => {
         </div>
 
         <div className="flex items-center gap-4">
-          <LanguageSelector />
+          {/* Mobile flags: visible on small screens */}
+          <div className="md:hidden">
+            <LanguageSelector />
+          </div>
+
           <button
             className="mobile-menu-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
