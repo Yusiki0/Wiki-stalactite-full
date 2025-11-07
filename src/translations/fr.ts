@@ -15,6 +15,8 @@ export default {
 
   'hero.title': 'Pokémon Stalactite',
   'hero.subtitle': 'Une nouvelle aventure Pokémon',
+  'hero.ctaDiscover': 'Découvrir',
+  'hero.ctaFAQ': 'FAQ',
 
   'synopsis.title': 'Synopsis',
   'synopsis.p1': "Incarnez un jeune garçon ou une jeune fille, originaire du Bourg Kona, situé à l'ouest de la petite région de Citados où humains et Pokémon vivent en paix et en harmonie. Dans cette belle région, la neige tombe en abondance toute l'année.",

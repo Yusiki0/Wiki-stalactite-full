@@ -15,6 +15,8 @@ export default {
 
   'hero.title': 'Pokémon Stalactite',
   'hero.subtitle': 'A New Pokémon Adventure',
+  'hero.ctaDiscover': 'Discover',
+  'hero.ctaFAQ': 'FAQ',
 
   'synopsis.title': 'Synopsis',
   'synopsis.p1': "Play as a young boy or girl from Bourg Kona, in the small Citados region where humans and Pokémon live in peace and harmony. In this beautiful region, snow falls heavily throughout the year.",

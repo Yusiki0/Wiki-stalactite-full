@@ -77,7 +77,7 @@ export const Header = ({ scrolled }: HeaderProps) => {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
         {/* Flags on desktop at far left */}
-        <div className="hidden md:flex items-center mr-4">
+        <div className="hidden md:flex items-center absolute left-4">
           <LanguageSelector />
         </div>
 
