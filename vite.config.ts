@@ -5,16 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/',
   plugins: [react()],
-  build: {
-    rollupOptions: {
-      external: ['react-intl'],
-      output: {
-        globals: {
-          'react-intl': 'ReactIntl'
-        }
-      }
-    }
-  },
+  // Keep default build behaviour so bundled dependencies (comme react-intl)
+  // sont correctement inclus dans le bundle final. Ne pas externaliser
+  // 'react-intl' : cela causait une importation non résolue côté client.
   optimizeDeps: {
     include: ['react-intl']
   }
