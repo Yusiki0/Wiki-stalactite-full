@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import FlagFR from '../assets/flag-fr.svg';
+import FlagEN from '../assets/flag-en.svg';
 
 export const LanguageSelector = () => {
   const { locale, setLocale } = useLanguage();
@@ -9,25 +11,23 @@ export const LanguageSelector = () => {
       <button
         aria-label="Français"
         title="Français"
-        className={`px-2 py-1 rounded text-xl ${
-          locale === 'fr' ? 'bg-blue-600 text-white' : 'bg-transparent hover:bg-slate-100'
+        className={`p-1 rounded ${
+          locale === 'fr' ? 'bg-blue-600' : 'bg-transparent hover:bg-slate-100'
         }`}
         onClick={() => setLocale('fr')}
       >
-        {/* Drapeau français */}
-        <span role="img" aria-hidden>🇫🇷</span>
+        <img src={FlagFR} alt="FR" className="w-6 h-4 block" />
       </button>
 
       <button
         aria-label="English"
         title="English"
-        className={`px-2 py-1 rounded text-xl ${
-          locale === 'en' ? 'bg-blue-600 text-white' : 'bg-transparent hover:bg-slate-100'
+        className={`p-1 rounded ${
+          locale === 'en' ? 'bg-blue-600' : 'bg-transparent hover:bg-slate-100'
         }`}
         onClick={() => setLocale('en')}
       >
-        {/* Drapeau anglais (UK). Vous pouvez remplacer par 🇺🇸 si vous préférez */}
-        <span role="img" aria-hidden>🇬🇧</span>
+        <img src={FlagEN} alt="EN" className="w-6 h-4 block" />
       </button>
     </div>
   );

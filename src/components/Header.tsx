@@ -31,21 +31,33 @@ export const Header = ({ scrolled }: HeaderProps) => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const href = e.currentTarget.getAttribute('href');
-    // Si c'est un lien ancre interne
-    if (href?.startsWith('#')) {
+    if (!href) return;
+
+    // Si c'est une route interne (commence par /), utiliser navigate pour conserver SPA behaviour
+    if (href.startsWith('/')) {
       e.preventDefault();
-      window.location.href = href;
+      navigate(href);
       setMobileMenuOpen(false);
-    } else {
-      // Pour une vraie route
-      setMobileMenuOpen(false);
+      return;
     }
+
+    // Si c'est une ancre locale (ex: #apropos), naviguer sur la même page
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.getElementById(href.replace('#', ''));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      setMobileMenuOpen(false);
+      return;
+    }
+
+    setMobileMenuOpen(false);
   };
 
   const { locale } = useLanguage();
   const intl = useIntl();
   const navigate = useNavigate();
-  const baseUrl = locale === 'en' ? '/en' : '';
+  // Always prefix routes with the locale so URLs are /fr/... or /en/...
+  const baseUrl = `/${locale}`;
 
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>

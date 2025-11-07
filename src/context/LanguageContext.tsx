@@ -20,24 +20,49 @@ const messages = {
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [locale, setLocale] = useState<Locale>(() => {
-    const pathLocale = location.pathname.split('/')[1];
-    return (pathLocale === 'en' ? 'en' : 'fr') as Locale;
-  });
+  const [locale, setLocale] = useState<Locale>(() => 'fr');
 
+  // On mount: determine locale from path (/fr or /en), localStorage, or navigator.
   useEffect(() => {
     const pathLocale = location.pathname.split('/')[1];
-    if (pathLocale !== locale && pathLocale !== '') {
+
+    // If path contains a locale, use it
+    if (pathLocale === 'fr' || pathLocale === 'en') {
       setLocale(pathLocale as Locale);
+      return;
     }
-  }, [location.pathname]);
+
+    // If user previously selected a locale, use it
+    const saved = window.localStorage.getItem('site-locale');
+    if (saved === 'fr' || saved === 'en') {
+      const savedLocale = saved as Locale;
+      setLocale(savedLocale);
+      // ensure URL contains the locale prefix
+      if (location.pathname === '/' || !location.pathname.startsWith(`/${savedLocale}`)) {
+        navigate(`/${savedLocale}${location.pathname}`);
+      }
+      return;
+    }
+
+    // Otherwise detect from browser
+    const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'fr';
+    const detected: Locale = navLang.toLowerCase().startsWith('en') ? 'en' : 'fr';
+    setLocale(detected);
+    if (location.pathname === '/' || !location.pathname.startsWith(`/${detected}`)) {
+      navigate(`/${detected}${location.pathname}`);
+    }
+  // We only want to run this on first mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSetLocale = (newLocale: Locale) => {
     setLocale(newLocale);
+    window.localStorage.setItem('site-locale', newLocale);
     const currentPath = location.pathname;
+    // remove existing /fr or /en prefix
     const pathWithoutLocale = currentPath.replace(/^\/(fr|en)/, '');
-    const newPath = newLocale === 'fr' ? pathWithoutLocale : `/en${pathWithoutLocale}`;
-    navigate(newPath || '/');
+    const newPath = `/${newLocale}${pathWithoutLocale}` || `/${newLocale}`;
+    navigate(newPath);
   };
 
   return (
