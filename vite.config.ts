@@ -3,6 +3,19 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/', // <- ici, le nom de ton repo
+  base: '/',
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      external: ['react-intl'],
+      output: {
+        globals: {
+          'react-intl': 'ReactIntl'
+        }
+      }
+    }
+  },
+  optimizeDeps: {
+    include: ['react-intl']
+  }
 })
