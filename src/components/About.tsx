@@ -1,26 +1,34 @@
 import '../styles/sections.css';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export const About = () => {
+  const intl = useIntl();
+
   return (
     <section className="section white" id="apropos">
       <div className="section-container">
         <div className="section-header">
-          <h2>À propos</h2>
+          <h2>{intl.formatMessage({ id: 'about.title' })}</h2>
         </div>
         <div className="content apropos">
           <div className="image-container fade">
-            <img src="https://i.postimg.cc/8cFjzpyK/image-region.png" alt="Région de Clitados" />
+            <img src="https://i.postimg.cc/8cFjzpyK/image-region.png" alt={intl.formatMessage({ id: 'about.title' })} />
           </div>
           <div className="text fade">
             <p>
-              Pokémon Stalactite est un fangame francophone développé à l'aide de <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">PSDK et Pokémon Studio</a>, conçu pour offrir aux passionnés de la licence une expérience inédite et immersive dans un univers semi-enneigé.
+              <FormattedMessage
+                id="about.description"
+                values={{
+                  link: (
+                    <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
+                      PSDK et Pokémon Studio
+                    </a>
+                  ),
+                }}
+              />
             </p>
-            <p>
-              Ce projet est actuellement en cours de développement et réalisé de manière indépendante par Yusiki, et l'aide de quelques personnes, avec passion et respect de l'œuvre originale.
-            </p>
-            <p>
-              Pokémon Stalactite est un projet non commercial et non affilié à Nintendo, Game Freak ou The Pokémon Company.
-            </p>
+            <p>{intl.formatMessage({ id: 'about.development' })}</p>
+            <p>{intl.formatMessage({ id: 'about.disclaimer' })}</p>
           </div>
         </div>
       </div>

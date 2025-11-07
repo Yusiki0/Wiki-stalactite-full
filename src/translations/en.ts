@@ -9,7 +9,7 @@ export default {
   'nav.credits': 'Credits',
 
   'about.title': 'About',
-  'about.description': 'Pokémon Stalactite is a French fangame developed using PSDK and Pokémon Studio, designed to offer Pokémon enthusiasts a unique and immersive experience in a semi-snowy universe.',
+  'about.description': 'Pokémon Stalactite is a French fangame developed using {link}, designed to offer Pokémon enthusiasts a unique and immersive experience in a semi-snowy universe.',
   'about.development': 'This project is currently under development and is being created independently by Yusiki, with the help of a few people, with passion and respect for the original work.',
   'about.disclaimer': 'Pokémon Stalactite is a non-commercial project and is not affiliated with Nintendo, Game Freak, or The Pokémon Company.',
 
