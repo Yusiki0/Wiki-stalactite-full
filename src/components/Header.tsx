@@ -33,35 +33,40 @@ export const Header = ({ scrolled }: HeaderProps) => {
     const href = e.currentTarget.getAttribute('href');
     if (!href) return;
 
+    // Toujours prévenir le comportement par défaut
+    e.preventDefault();
+
     // Si href contient un '#', extraire path et hash
     const [pathPart, hashPart] = href.split('#');
 
-    // Si c'est une route interne (commence par /)
-    if (pathPart.startsWith('/')) {
-      e.preventDefault();
-      // Navigate to path (without hash)
-      const targetPath = pathPart;
-      navigate(targetPath);
+    // Vérifier si nous sommes sur une page différente
+    const currentPath = window.location.pathname;
+    const isOnDifferentPage = pathPart && currentPath !== pathPart;
 
-      // Si on a un hash, scroller après un court délai pour laisser React rendre
+    if (isOnDifferentPage) {
+      // Si on est sur une page différente, d'abord naviguer vers la page principale
+      navigate(pathPart);
+      
+      // Puis scroller vers la section après un délai pour laisser la page se charger
       if (hashPart) {
         setTimeout(() => {
           const el = document.getElementById(hashPart);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 80);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100); // Délai légèrement plus long pour assurer le chargement complet
       }
-
-      setMobileMenuOpen(false);
-      return;
-    }
-
-    // Si c'est une ancre locale pure (ex: #apropos)
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      const target = document.getElementById(href.replace('#', ''));
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-      setMobileMenuOpen(false);
-      return;
+    } else {
+      // Si on est déjà sur la bonne page
+      if (hashPart) {
+        const el = document.getElementById(hashPart);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        // Si pas de hash, juste naviguer vers le path
+        navigate(pathPart);
+      }
     }
 
     setMobileMenuOpen(false);
