@@ -1,41 +1,100 @@
 :root{
-  --card-bg: #fff;
+  --credit-card-bg: #ffffff;
+  --credit-border: rgba(15,23,42,0.06);
   --muted: #6b7280;
-  --accent: #3b82f6;
+  --accent: #2563eb;
 }
 
-.featured-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
-@media(min-width:768px){.featured-grid{grid-template-columns:1.4fr 1fr 1fr}}
+/* Container card for each credit group */
+.credit-card {
+  background: var(--credit-card-bg);
+  border: 1px solid var(--credit-border);
+  border-radius: 14px;
+  padding: 1.15rem;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
 
-.credit-card{
-  background:var(--card-bg);
-  border-radius:14px;
-  padding:1rem;
-  box-shadow:0 6px 18px rgba(2,6,23,0.06);
-  border:1px solid rgba(15,23,42,0.04);
+.credit-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 34px rgba(2,6,23,0.06);
+}
+
+.credit-header{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  margin-bottom:0.6rem;
+}
+
+.credit-header .title-icon{
+  width:36px;
+  height:36px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(37,99,235,0.12), rgba(37,99,235,0.06));
+  color: var(--accent);
+  font-weight:700;
+  font-size:0.95rem;
+}
+
+.credit-title{
+  font-size:1.05rem;
+  font-weight:700;
+  color: #111827;
+}
+
+/* refined contributor list */
+.contrib-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.6rem 0.75rem;
+  align-items:flex-start;
+}
+
+.contrib-item{
+  display:flex;
+  gap:0.6rem;
+  align-items:center;
+  padding:0.48rem 0.6rem;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(243,244,246,0.6), rgba(255,255,255,0.6));
+  border: 1px solid rgba(15,23,42,0.03);
+  min-width: 140px;
+}
+
+.avatar{
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(15,23,42,0.06), rgba(15,23,42,0.02));
+  color: #111827;
+  display:inline-grid;
+  place-items:center;
+  font-weight:700;
+  font-size:0.85rem;
+}
+
+.contrib-meta{
   display:flex;
   flex-direction:column;
-  gap:0.75rem;
-  transition:transform 160ms ease,box-shadow 160ms ease;
 }
-.credit-card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(2,6,23,0.08)}
 
-.credit-top{display:flex;gap:0.9rem;align-items:center}
-.credit-avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;color:white;font-size:26px;box-shadow:0 6px 14px rgba(59,130,246,0.14)}
-.credit-title{font-size:1.05rem;font-weight:800;margin:0;color:var(--color-text)}
-.credit-sub{font-size:0.95rem;color:var(--muted);margin:0}
+.credit-link{
+  color: var(--accent);
+  text-decoration: none;
+  font-weight:600;
+}
 
-.credit-body{margin-top:0.25rem}
-.credit-tags{display:flex;gap:0.5rem;margin-top:0.6rem}
-.tag{background:rgba(59,130,246,0.08);color:var(--accent);padding:0.28rem 0.6rem;border-radius:999px;font-weight:700;font-size:0.78rem;border:1px solid rgba(59,130,246,0.08)}
+.credit-link:hover{ text-decoration: underline; }
 
-/* make the detailed groups match the general theme */
-article.bg-white{background:linear-gradient(180deg,#ffffff,#fbfdff)}
-article.bg-white h2{color:var(--color-text)}
-article.bg-white ul li{background:rgba(243,244,246,0.7)}
+.credit-name{ color: #111827; font-weight:600; }
 
-/* responsive tweaks */
+/* sidebar sticky card tweaks */
+.credit-aside{ padding:1rem; }
+
+/* responsive: make items full width on small screens */
 @media (max-width:640px){
-  .credit-avatar{width:48px;height:48px;font-size:22px}
-  .credit-title{font-size:1rem}
+  .contrib-item{ min-width: 100%; }
 }

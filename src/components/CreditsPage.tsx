@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import '../styles/credits.css';
 
@@ -32,28 +31,33 @@ const spanishPluginContribs = [
 ];
 
 const CreditListRenderer = ({ items }: { items: string[] }) => {
-  const allNames = items.flatMap(item => item.split(/\s*\|\|\s*/)); // Sépare par '||' avec ou sans espaces
+  const allNames = items.flatMap((item) => item.split(/\s*\|\|\s*/)); // Sépare par '||' avec ou sans espaces
 
   const renderName = (name: string) => {
     if (name === 'Pokémon Workshop') {
       return (
-        <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="text-slate-700 hover:text-slate-900 hover:underline">
+        <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="credit-link">
           {name}
         </a>
       );
     }
-    return <span className="text-slate-700">{name}</span>;
+    return <span className="credit-name">{name}</span>;
+  };
+
+  const initials = (name: string) => {
+    const parts = name.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return '';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
   };
 
   return (
-    <div className="flex flex-wrap gap-x-2 gap-y-1 leading-relaxed">
+    <div className="contrib-list">
       {allNames.map((name, index) => (
-        <React.Fragment key={`${name}-${index}`}>
-          {renderName(name)}
-          {index < allNames.length - 1 && (
-            <span className="text-slate-400" aria-hidden="true">•</span>
-          )}
-        </React.Fragment>
+        <div className="contrib-item" key={`${name}-${index}`}>
+          <span className="avatar" aria-hidden="true">{initials(name)}</span>
+          <span className="contrib-meta">{renderName(name)}</span>
+        </div>
       ))}
     </div>
   );
@@ -73,57 +77,18 @@ export default function CreditsPage() {
             {intl.formatMessage({ id: 'credits.headerDesc' })}
           </p>
         </header>
-        {/* Featured cards: IA, Creator, Main Supporter */}
-        <section className="featured-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <article className="credit-card ia-card p-6">
-            <div className="credit-top">
-              <div className="credit-avatar">🤖</div>
-              <div>
-                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.aiTitle', defaultMessage: 'IA' })}</h3>
-                <p className="credit-sub">{intl.formatMessage({ id: 'credits.aiDesc', defaultMessage: "Assistance à la rédaction, traduction et génération de contenu." })}</p>
-              </div>
-            </div>
-            <div className="credit-body">
-              <p className="text-sm text-slate-700">
-                {intl.formatMessage({ id: 'credits.aiNote', defaultMessage: "Ce bloc représente l'assistance automatique (IA) utilisée pour accélérer la rédaction, la traduction et la mise en forme des contenus de ce site." })}
-              </p>
-              <div className="credit-tags">
-                <span className="tag">{intl.formatMessage({ id: 'credits.tag.translation', defaultMessage: 'Traduction' })}</span>
-                <span className="tag">{intl.formatMessage({ id: 'credits.tag.generation', defaultMessage: 'Génération' })}</span>
-                <span className="tag">{intl.formatMessage({ id: 'credits.tag.review', defaultMessage: 'Révision' })}</span>
-              </div>
-            </div>
-          </article>
 
-          <article className="credit-card p-6">
-            <h3 className="credit-title">{intl.formatMessage({ id: 'credits.creator', defaultMessage: 'Créateur' })}</h3>
-            <p className="credit-sub">Yusiki</p>
-            <div className="credit-body">
-              <p className="text-sm text-slate-700">{intl.formatMessage({ id: 'credits.creatorNote', defaultMessage: "Conception, direction et coordination du projet." })}</p>
-            </div>
-          </article>
-
-          <article className="credit-card p-6">
-            <h3 className="credit-title">{intl.formatMessage({ id: 'credits.mainSupporter', defaultMessage: 'Support principal' })}</h3>
-            <p className="credit-sub">Pokémon Workshop</p>
-            <div className="credit-body">
-              <p className="text-sm text-slate-700">{intl.formatMessage({ id: 'credits.supporterNote', defaultMessage: 'Contributions et ressources fournies par la communauté.' })}</p>
-            </div>
-          </article>
-        </section>
-
-        {/* Section principale des crédits (groupes détaillés) */}
+        {/* Section principale des crédits */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           {credits.map((group) => (
-            <article key={group.titleKey} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-              <h2 className="text-lg font-semibold mb-3 text-slate-800">
-                {intl.formatMessage({ id: group.titleKey })}
-              </h2>
-              <ul className="flex flex-wrap gap-2">
-                {group.items.map((i) => (
-                  <li key={i} className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-sm font-medium shadow-xs">{i}</li>
-                ))}
-              </ul>
+            <article key={group.titleKey} className="credit-card">
+              <div className="credit-header">
+                <span className="title-icon">★</span>
+                <h2 className="credit-title">
+                  {intl.formatMessage({ id: group.titleKey })}
+                </h2>
+              </div>
+              <CreditListRenderer items={group.items} />
             </article>
           ))}
         </section>
