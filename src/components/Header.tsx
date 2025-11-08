@@ -143,7 +143,7 @@ export const Header = ({ scrolled }: HeaderProps) => {
             className={activeLink === 'reseaux' ? 'active' : ''}
             onClick={handleNavClick}
           >
-            Réseaux
+            {intl.formatMessage({ id: 'nav.socials' })}
           </a>
           <a href={`${baseUrl}/faq`} onClick={handleNavClick}>
             {intl.formatMessage({ id: 'nav.faq' })}

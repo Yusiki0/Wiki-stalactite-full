@@ -6,6 +6,7 @@ export default {
   'nav.pokedex': 'Pokédex',
   'nav.screenshots': 'Screenshots',
   'nav.protagonists': 'Protagonistes',
+  'nav.socials': 'Réseaux',
   'nav.faq': 'FAQ',
   'nav.credits': 'Crédits',
 
@@ -38,7 +39,7 @@ export default {
 
   // Starters
   'starters.title': 'Starters',
-  'starters.headerTitle': 'Les Pokémon de Départ',
+  'starters.headerTitle': 'Les Starters',
   'starters.headerDesc': 'Choisissez votre premier compagnon pour débuter votre aventure dans la région de Citados.',
   'starters.cherbi.name': 'Cherbi',
   'starters.cherbi.type': 'Type plante / glace',

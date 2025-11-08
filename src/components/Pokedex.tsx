@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import '../styles/pokedex.css';
 
 interface Pokemon {
@@ -8,6 +9,7 @@ interface Pokemon {
 }
 
 export const Pokedex = () => {
+  const intl = useIntl();
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
 
   useEffect(() => {
@@ -191,15 +193,15 @@ export const Pokedex = () => {
   return (
     <div className="pokedex-page">
       <div className="pokedex-header">
-        <h1>Pokédex de Citados</h1>
-        <p>Découvrez tous les Pokémon et formes régionales de la région de Citados.</p>
+        <h1>{intl.formatMessage({ id: 'pokedex.headerTitle' })}</h1>
+        <p>{intl.formatMessage({ id: 'pokedex.headerDesc' })}</p>
       </div>
       <table className="pokedex-table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Nom</th>
-            <th>Types</th>
+            <th>{intl.formatMessage({ id: 'pokedex.table.number' })}</th>
+            <th>{intl.formatMessage({ id: 'pokedex.table.name' })}</th>
+            <th>{intl.formatMessage({ id: 'pokedex.table.types' })}</th>
           </tr>
         </thead>
         <tbody>
@@ -211,7 +213,9 @@ export const Pokedex = () => {
                 </span>
               </td>
               <td>
-                <span className="pokemon-name">{pokemon.name}</span>
+                <span className="pokemon-name">
+                  {intl.formatMessage({ id: `pokedex.pokemon.${pokemon.number}.name` }, { defaultMessage: pokemon.name })}
+                </span>
               </td>
               <td>
                 <div className="pokemon-types">
@@ -221,7 +225,7 @@ export const Pokedex = () => {
                       className="pokemon-type"
                       style={{ backgroundColor: typeColors[type] || '#777' }}
                     >
-                      {type}
+                      {intl.formatMessage({ id: `type.${type}` }, { defaultMessage: type })}
                     </span>
                   ))}
                 </div>
