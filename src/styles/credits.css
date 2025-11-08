@@ -81,5 +81,10 @@
 .read-more-toggle:hover{ text-decoration: underline; }
 
 /* fix aside stacking and spacing */
-.aside-container{ display:flex; flex-direction:column; gap:1rem; }
-.credit-section.credit-aside{ padding: 0; background: transparent; border-bottom: none; }
+.aside-container{ display:flex; flex-direction:column; gap:1rem; align-items:flex-start; }
+.credit-section.credit-aside{
+  padding: 0.25rem 0 0.6rem 0;
+  background: transparent;
+  border-bottom: none;
+  margin-bottom: 0.8rem; /* ensure spacing after the scrollable plugin box */
+}

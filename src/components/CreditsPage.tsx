@@ -150,7 +150,7 @@ export default function CreditsPage() {
 
           {/* Sidebar */}
             <aside className="aside-container">
-            <section className="sticky top-24 credit-section credit-aside">
+            <section className="credit-section credit-aside">
                 <h4 className="credit-title">{intl.formatMessage({ id: 'credits.pluginContribs' })}</h4>
                 <div className="h-64 overflow-auto text-sm">
                   <ExpandableCreditList items={spanishPluginContribs} previewCount={8} />
