@@ -1,39 +1,38 @@
+import { useIntl } from 'react-intl';
 import '../styles/sections.css';
 
 export const Protagonists = () => {
+  const intl = useIntl();
+
   return (
     <section className="section white" id="protagonistes">
       <div className="section-container">
         <div className="section-header">
-          <h2>Protagonistes</h2>
+          <h2>{intl.formatMessage({ id: 'protagonists.title' })}</h2>
         </div>
         <div className="content protagonistes">
           <div className="protagonists-images">
             <div className="image-container fade">
-              <img src="https://i.postimg.cc/kMxydsnF/Prota-fiverr-male.png" alt="Protagoniste 1" />
+              <img src="https://i.postimg.cc/kMxydsnF/Prota-fiverr-male.png" alt={intl.formatMessage({ id: 'protagonists.maleAlt' })} />
             </div>
             <div className="image-container fade">
-              <img src="https://i.postimg.cc/C5hD0NVF/FEMALE-VERSION-copy.png" alt="Protagoniste 2" />
+              <img src="https://i.postimg.cc/C5hD0NVF/FEMALE-VERSION-copy.png" alt={intl.formatMessage({ id: 'protagonists.femaleAlt' })} />
             </div>
           </div>
           <div className="text fade">
-            <p>
-              Au début de votre aventure vous incarnez un jeune garçon ou une jeune
-              fille de 15 ans. Choisissez votre apparence selon votre préférence !
-              Les PNJ réagiront en fonction de votre genre. Les artworks affichés ci-dessus ne sont pas définitifs ; un rework aura probablement lieu.
-            </p>
+            <p>{intl.formatMessage({ id: 'protagonists.p1' })}</p>
             <div className="character-traits">
               <div className="trait">
-                <span className="trait-label">Âge</span>
-                <span className="trait-value">15 ans</span>
+                <span className="trait-label">{intl.formatMessage({ id: 'protagonists.ageLabel' })}</span>
+                <span className="trait-value">{intl.formatMessage({ id: 'protagonists.ageValue' })}</span>
               </div>
               <div className="trait">
-                <span className="trait-label">Origine</span>
-                <span className="trait-value">Bourg Kona</span>
+                <span className="trait-label">{intl.formatMessage({ id: 'protagonists.originLabel' })}</span>
+                <span className="trait-value">{intl.formatMessage({ id: 'protagonists.originValue' })}</span>
               </div>
               <div className="trait">
-                <span className="trait-label">Objectif</span>
-                <span className="trait-value">Collectionner les 9 badges</span>
+                <span className="trait-label">{intl.formatMessage({ id: 'protagonists.goalLabel' })}</span>
+                <span className="trait-value">{intl.formatMessage({ id: 'protagonists.goalValue' })}</span>
               </div>
             </div>
           </div>

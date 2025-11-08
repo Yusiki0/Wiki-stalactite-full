@@ -1,4 +1,5 @@
 export default {
+  // Navigation
   'nav.about': 'À propos',
   'nav.synopsis': 'Synopsis',
   'nav.starters': 'Starters',
@@ -14,7 +15,7 @@ export default {
   'about.disclaimer': 'Pokémon Stalactite est un projet non commercial et non affilié à Nintendo, Game Freak ou The Pokémon Company.',
 
   'hero.title': 'Pokémon Stalactite',
-  'hero.subtitle': 'Une nouvelle aventure Pokémon',
+  'hero.subtitle': 'Parcourez les terres glacées de Citados',
   'hero.ctaDiscover': 'Découvrir',
   'hero.ctaFAQ': 'FAQ',
 
@@ -23,25 +24,121 @@ export default {
   'synopsis.p2': "Un jour, le Professeur Yusiki vous propose de partir en voyage à la conquête des 9 badges de la région. Choisissez votre premier compagnon pour débuter votre aventure aussi palpitante qu'extraordinaire !",
   'synopsis.p3': "Mais... La Team Yunaï vous barrera la route à de nombreuses reprises ! On en sait très peu de cette mystérieuse organisation, bien que des rumeurs disent qu'elle rechercherait une mystérieuse forme régionale d'Evoli... Mais pour de mauvaises intentions...",
 
-  'starters.title': 'Starters',
-  // Ajouter les descriptions des starters
-
-  'pokedex.title': 'Pokédex',
-  // Ajouter les textes du Pokédex
-
-  'screenshots.title': 'Screenshots',
-  // Ajouter les légendes des screenshots
-
+  // Protagonistes
   'protagonists.title': 'Protagonistes',
-  // Ajouter les descriptions des protagonistes
+  'protagonists.p1': "Au début de votre aventure vous incarnez un·e jeune d'environ 15 ans. Choisissez votre apparence : les PNJ réagiront selon votre genre. Les artworks affichés sont susceptibles d'être retravaillés.",
+  'protagonists.ageLabel': 'Âge',
+  'protagonists.ageValue': '15 ans',
+  'protagonists.originLabel': 'Origine',
+  'protagonists.originValue': 'Bourg Kona',
+  'protagonists.goalLabel': 'Objectif',
+  'protagonists.goalValue': 'Collectionner les 9 badges',
+  'protagonists.maleAlt': 'Protagoniste masculin',
+  'protagonists.femaleAlt': 'Protagoniste féminin',
+
+  // Starters
+  'starters.title': 'Starters',
+  'starters.headerTitle': 'Les Pokémon de Départ',
+  'starters.headerDesc': 'Choisissez votre premier compagnon pour débuter votre aventure dans la région de Citados.',
+  'starters.cherbi.name': 'Cherbi',
+  'starters.cherbi.type': 'Type plante / glace',
+  'starters.feuriglou.name': 'Feuriglou',
+  'starters.feuriglou.type': 'Type feu / glace',
+  'starters.lebullio.name': 'Lébullio',
+  'starters.lebullio.type': 'Type eau / glace',
+  'starters.tipText': "Chaque starter possède un double-type incluant le type glace, leur permettant de mieux s'acclimater au froid de la région.",
+
+  // Screenshots
+  'screenshots.title': 'Screenshots',
+  'screenshots.headerTitle': 'Captures d\'écran',
+  'screenshots.headerDesc': 'Découvrez en images l\'univers de Pokémon Stalactite.',
+  'screenshots.caption1': 'Les terres enneigées de Citados vous attendent',
+  'screenshots.caption2': 'Explorez des villes au charme unique',
+  'screenshots.caption3': 'Affrontez des dresseurs chevronnés',
+  'screenshots.caption4': 'Découvrez des lieux mystérieux',
 
   'faq.title': 'FAQ',
-  // Ajouter les questions/réponses de la FAQ
+  'faq.headerTitle': 'Foire Aux Questions',
+  'faq.headerDesc': "Retrouvez ici les réponses aux questions les plus fréquentes sur Pokémon Stalactite.",
+  'faq.q1.q': "Qu'est-ce que Pokémon Stalactite ?",
+  'faq.q1.a': "Pokémon Stalactite est un fangame Pokémon francophone développé avec PSDK et Pokémon Studio. C'est un projet non commercial créé par des fans pour les fans.",
+  'faq.q2.q': "Le jeu est-il gratuit ?",
+  'faq.q2.a': "Oui, Pokémon Stalactite est et restera totalement gratuit. Il n'est pas affilié à Nintendo, Game Freak ou The Pokémon Company.",
+  'faq.q3.q': "Une date de sortie est prévue ?",
+  'faq.q3.a': "Une démo est en développement actif. Aucune date définitive n'a encore été annoncée.",
+  'faq.q4.q': "Quelles sont les spécificités de la région de Citados ?",
+  'faq.q4.a': "La partie ouest de Citados est enneigée en permanence, avec des rencontres sauvages adaptées au climat et de nombreuses quêtes secondaires.",
+  'faq.q5.q': "Y aura-t-il des Pokémon exclusifs à Citados ?",
+  'faq.q5.a': "Oui, quelques formes régionales et fakemons uniques seront disponibles, souvent liés au type Glace.",
+  'faq.q6.q': "Quelles sont les configurations requises ?",
+  'faq.q6.a': "Le jeu sera jouable sur PC (Windows).",
+  'faq.q7.q': "Peut-on participer au développement ?",
+  'faq.q7.a': "Le développement principal est géré par Yusiki. Si vous souhaitez contribuer (art, tests, scénarios), rejoignez notre Discord.",
+  'faq.q8.q': "Y aura-t-il des mises à jour après la sortie ?",
+  'faq.q8.a': "Oui, le jeu sera maintenu et pourra recevoir du contenu additionnel après la sortie.",
+  'faq.q9.q': "Le jeu sera-t-il disponible dans d'autres langues ?",
+  'faq.q9.a': "Pour l'instant le projet cible principalement le français. Des traductions peuvent être envisagées selon l'accueil.",
+  'faq.q10.q': "Comment signaler un bug ou faire une suggestion ?",
+  'faq.q10.a': "Rejoignez notre serveur Discord pour signaler des bugs ou proposer des idées.",
+  'faq.contact.question': "Vous ne trouvez pas la réponse à votre question ?",
+  'faq.contactButton': "Contactez-nous sur Discord",
 
   'credits.title': 'Crédits',
+  'credits.headerTitle': 'Crédits',
+  'credits.headerDesc': "Merci à toutes et tous pour votre contribution. Cette page liste les personnes ayant aidé au développement, à l'art et aux ressources.",
   'credits.mainSupporter': 'Main Supporter',
   'credits.creator': 'Créateur de Pokémon Stalactite',
-  'credits.closeHelp': 'Aide Proche',
+  'credits.closeHelp': 'Aide proche',
   'credits.earlySupport': 'Soutien de première heure',
+  'credits.conceptArt': 'Concept Art',
+  'credits.pixelArt': 'Pixel Art',
+  'credits.devHelp': 'Aide développement',
+  'credits.scenario': 'Scénario',
+  'credits.levelDesign': 'Aide level design',
+  'credits.metagame': 'Metagame - BDD',
+  'credits.ideas': 'Idées',
+  'credits.resourcesTitle': 'Ressources graphiques - Pokémon Stalactite',
+  'credits.musicTitle': 'Musique',
+  'credits.animatedTitle': 'Animated Front & Back Sprites pack',
+  'credits.pluginContribs': 'Contributors - Plugin espagnol',
+  'credits.specialThanks': 'Remerciements spéciaux',
+  'credits.contactNote': 'Si vous voyez un oubli ou souhaitez que votre pseudo soit modifié, contactez l\'équipe de développement.',
+  'credits.footerNote': "Pokémon et tout contenu officiel Pokémon sont la propriété de leurs détenteurs respectifs. Ce fangame est une œuvre de fans et n'est pas affilié à Nintendo, Game Freak ou The Pokémon Company.",
+
+  // Footer / Rejoignez-nous
+  'footer.joinTitle': 'Rejoignez-nous',
+  'footer.joinText': 'Suivez le développement du projet sur nos réseaux sociaux',
+  'footer.discord': 'Discord',
+  'footer.youtube': 'YouTube',
+  'footer.twitter': 'Twitter',
+  'footer.copy': '© Pokémon Stalactite, 2022–2025 — Projet non lucratif et non affilié à Nintendo',
+  'footer.scrollTop': 'Retour en haut',
+
+  // Pokedex UI
+  'pokedex.headerTitle': 'Pokédex de Citados',
+  'pokedex.headerDesc': 'Découvrez tous les Pokémon et formes régionales de la région de Citados.',
+  'pokedex.table.number': '#',
+  'pokedex.table.name': 'Nom',
+  'pokedex.table.types': 'Types',
+
+  // Types (pour traduction côté EN)
+  'type.Plante': 'Plante',
+  'type.Feu': 'Feu',
+  'type.Eau': 'Eau',
+  'type.Glace': 'Glace',
+  'type.Insecte': 'Insecte',
+  'type.Poison': 'Poison',
+  'type.Ténèbres': 'Ténèbres',
+  'type.Combat': 'Combat',
+  'type.Vol': 'Vol',
+  'type.Électrik': 'Électrik',
+  'type.Acier': 'Acier',
+  'type.Normal': 'Normal',
+  'type.Psy': 'Psy',
+  'type.Fée': 'Fée',
+  'type.Roche': 'Roche',
+  'type.Sol': 'Sol',
+  'type.Dragon': 'Dragon',
+  'type.Spectre': 'Spectre',
   // Ajouter tous les autres crédits
 };

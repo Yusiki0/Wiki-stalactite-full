@@ -1,21 +1,24 @@
+import { useIntl } from 'react-intl';
 import '../styles/starters.css';
 
 export const Starters = () => {
+  const intl = useIntl();
+
   const starters = [
     {
-      name: 'Cherbi',
+      nameKey: 'starters.cherbi.name',
       image: '/images/001_Cherbi_artwork.png',
-      type: 'Type plante / glace',
+      typeKey: 'starters.cherbi.type',
     },
     {
-      name: 'Feuriglou',
+      nameKey: 'starters.feuriglou.name',
       image: '/images/004_Feurigloup_artwork_return.png',
-      type: 'Type feu / glace',
+      typeKey: 'starters.feuriglou.type',
     },
     {
-      name: 'Lébullio',
+      nameKey: 'starters.lebullio.name',
       image: '/images/007_Lebullio_artwork_return.png',
-      type: 'Type eau / glace',
+      typeKey: 'starters.lebullio.type',
     }
   ];
 
@@ -23,7 +26,7 @@ export const Starters = () => {
     <section className="section gray" id="starters">
       <div className="section-container">
         <div className="section-header">
-          <h2>Starters</h2>
+          <h2>{intl.formatMessage({ id: 'starters.headerTitle' })}</h2>
         </div>
         <div className="starters-container">
           <div className="starters-grid">
@@ -32,21 +35,21 @@ export const Starters = () => {
                 <div className="starter-image">
                   <img 
                     src={starter.image} 
-                    alt={starter.name} 
+                    alt={intl.formatMessage({ id: starter.nameKey })} 
                     loading="lazy" 
                   />
                 </div>
                 <div className="starter-info">
-                  <h3>{starter.name}</h3>
-                  <span className="starter-type">{starter.type}</span>
+                  <h3>{intl.formatMessage({ id: starter.nameKey })}</h3>
+                  <span className="starter-type">
+                    {intl.formatMessage({ id: starter.typeKey })}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
           <div className="starter-tip fade">
-            <p>
-              Chaque starter possède un double-type incluant le type glace, leur permettant de mieux s'acclimater au froid de la région.
-            </p>
+            <p>{intl.formatMessage({ id: 'starters.tipText' })}</p>
           </div>
         </div>
       </div>

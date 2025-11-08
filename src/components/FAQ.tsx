@@ -1,49 +1,51 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import '../styles/faq.css';
 
 export const FAQ = () => {
   const [openQuestion, setOpenQuestion] = useState<number | null>(null);
+  const intl = useIntl();
 
   const faqItems = [
     {
-      question: "Qu'est-ce que Pokémon Stalactite ?",
-      answer: "Pokémon Stalactite est un fangame Pokémon francophone développé avec PSDK et Pokémon Studio. C'est un projet non commercial créé par des fans pour les fans, proposant une nouvelle aventure dans une région enneigée unique."
+      questionKey: 'faq.q1.q',
+      answerKey: 'faq.q1.a'
     },
     {
-      question: "Le jeu est-il gratuit ?",
-      answer: "Oui, Pokémon Stalactite est et restera totalement gratuit. C'est un projet fan-made non commercial qui n'est pas affilié à Nintendo, Game Freak ou The Pokémon Company."
+      questionKey: 'faq.q2.q',
+      answerKey: 'faq.q2.a'
     },
     {
-      question: "Une date de sortie est prévue ?",
-      answer: "Une démo du fangame est actuellement en développement actif. Aucune date de sortie précise n'a encore été annoncée."
+      questionKey: 'faq.q3.q',
+      answerKey: 'faq.q3.a'
     },
     {
-      question: "Quelles sont les spécificités de la région de Citados ?",
-      answer: "Toute la partie ouest de la région de Citados est enneigée, proposant donc un voyage unique avec des rencontres sauvages adaptées au climat. Diverses quêtes secondaires seront disponibles, avec de nouveaux personnages encore méconnus. Une partie de l'histoire sera centrée sur une mystérieurse organisation, qui, d'après des rumeurs, ferait des exprériences illégales sur des Pokémon innocents, à des fins obscures."
+      questionKey: 'faq.q4.q',
+      answerKey: 'faq.q4.a'
     },
     {
-      question: "Y aura-t-il des Pokémon exclusifs à Citados ?",
-      answer: "Oui, le jeu proposera quelques formes régionales uniques, très souvent de type glace."
+      questionKey: 'faq.q5.q',
+      answerKey: 'faq.q5.a'
     },
     {
-      question: "Quelles sont les configurations requises ?",
-      answer: "Le jeu sera jouable uniquement sur PC (Windows)."
+      questionKey: 'faq.q6.q',
+      answerKey: 'faq.q6.a'
     },
     {
-      question: "Peut-on participer au développement du jeu ?",
-      answer: "Le développement principal est géré par Yusiki, mais plusieurs personnes contribuent sur le côté artistique ou même scénaristique. Si vous souhaitez vous aussi contribuer (bénévolement), ouvrez un ticket sur le serveur Discord !"
+      questionKey: 'faq.q7.q',
+      answerKey: 'faq.q7.a'
     },
     {
-      question: "Y aura-t-il des mises à jour après la sortie ?",
-      answer: "Oui, nous prévoyons de maintenir et d'améliorer le jeu après sa sortie avec des corrections de bugs et potentiellement du contenu supplémentaire."
+      questionKey: 'faq.q8.q',
+      answerKey: 'faq.q8.a'
     },
     {
-      question: "Le jeu sera-t-il disponible dans d'autres langues ?",
-      answer: "Pour le moment, Pokémon Stalactite est prévu uniquement en français. Des traductions pourront être envisagées après la sortie selon l'accueil du jeu."
+      questionKey: 'faq.q9.q',
+      answerKey: 'faq.q9.a'
     },
     {
-      question: "Comment signaler un bug ou faire une suggestion ?",
-      answer: "Le meilleur moyen est de rejoindre notre serveur Discord où vous pourrez interagir directement avec l'équipe de développement et la communauté."
+      questionKey: 'faq.q10.q',
+      answerKey: 'faq.q10.a'
     }
   ];
 
@@ -54,8 +56,8 @@ export const FAQ = () => {
   return (
     <div className="faq-page">
       <div className="faq-header">
-        <h1>Foire Aux Questions</h1>
-        <p>Retrouvez ici les réponses aux questions les plus fréquentes sur Pokémon Stalactite.</p>
+        <h1>{intl.formatMessage({ id: 'faq.headerTitle' })}</h1>
+        <p>{intl.formatMessage({ id: 'faq.headerDesc' })}</p>
       </div>
       <div className="faq-container">
         {faqItems.map((item, index) => (
@@ -65,18 +67,20 @@ export const FAQ = () => {
             onClick={() => toggleQuestion(index)}
           >
             <div className="faq-question">
-              <h3>{item.question}</h3>
+              <h3>{intl.formatMessage({ id: item.questionKey })}</h3>
               <span className="faq-icon">{openQuestion === index ? '−' : '+'}</span>
             </div>
             <div className="faq-answer">
-              <p>{item.answer}</p>
+              <p>{intl.formatMessage({ id: item.answerKey })}</p>
             </div>
           </div>
         ))}
       </div>
       <div className="faq-footer">
-        <p>Vous ne trouvez pas la réponse à votre question ?</p>
-        <a href="https://discord.gg/44uvRcuSuq" className="faq-contact-button">Contactez-nous sur Discord</a>
+        <p>{intl.formatMessage({ id: 'faq.contact.question' })}</p>
+        <a href="https://discord.gg/44uvRcuSuq" className="faq-contact-button">
+          {intl.formatMessage({ id: 'faq.contactButton' })}
+        </a>
       </div>
     </div>
   );
