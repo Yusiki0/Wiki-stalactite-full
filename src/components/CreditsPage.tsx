@@ -122,7 +122,6 @@ export default function CreditsPage() {
                 {intl.formatMessage({ id: 'credits.resourcesTitle' })}
               </h3>
               <section className="credit-section">
-                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.resourcesTitle' })}</h3>
                 <ExpandableCreditList items={ressourcesGraphiques} previewCount={6} />
               </section>
             </div>
@@ -132,7 +131,6 @@ export default function CreditsPage() {
                 {intl.formatMessage({ id: 'credits.musicTitle' })}
               </h3>
               <section className="credit-section">
-                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.musicTitle' })}</h3>
                 <CreditListRenderer items={music} />
               </section>
             </div>
@@ -142,7 +140,6 @@ export default function CreditsPage() {
                 {intl.formatMessage({ id: 'credits.animatedTitle' })}
               </h3>
               <section className="credit-section">
-                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.animatedTitle' })}</h3>
                 <CreditListRenderer items={animatedSprites} />
               </section>
             </div>
