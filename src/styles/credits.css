@@ -4,97 +4,64 @@
   --muted: #6b7280;
   --accent: #2563eb;
 }
-
-/* Container card for each credit group */
-.credit-card {
-  background: var(--credit-card-bg);
-  border: 1px solid var(--credit-border);
-  border-radius: 14px;
-  padding: 1.15rem;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
-  transition: transform 150ms ease, box-shadow 150ms ease;
+/* Minimal, clean credits styling */
+:root{
+  --muted: #6b7280;
+  --divider: rgba(15,23,42,0.06);
+  --accent: #2563eb;
 }
 
-.credit-card:hover{
-  transform: translateY(-4px);
-  box-shadow: 0 12px 34px rgba(2,6,23,0.06);
-}
-
-.credit-header{
-  display:flex;
-  align-items:center;
-  gap:0.75rem;
-  margin-bottom:0.6rem;
-}
-
-.credit-header .title-icon{
-  width:36px;
-  height:36px;
-  display:inline-grid;
-  place-items:center;
-  border-radius:10px;
-  background: linear-gradient(180deg, rgba(37,99,235,0.12), rgba(37,99,235,0.06));
-  color: var(--accent);
-  font-weight:700;
-  font-size:0.95rem;
+.credit-section{
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--divider);
 }
 
 .credit-title{
-  font-size:1.05rem;
-  font-weight:700;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: #111827;
+  margin: 0 0 0.4rem 0;
 }
 
-/* refined contributor list */
-.contrib-list{
-  display:flex;
-  flex-wrap:wrap;
-  gap:0.6rem 0.75rem;
-  align-items:flex-start;
+.simple-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
 }
 
-.contrib-item{
-  display:flex;
-  gap:0.6rem;
-  align-items:center;
-  padding:0.48rem 0.6rem;
-  border-radius:10px;
-  background: linear-gradient(180deg, rgba(243,244,246,0.6), rgba(255,255,255,0.6));
-  border: 1px solid rgba(15,23,42,0.03);
-  min-width: 140px;
+.simple-list-item{
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
-.avatar{
-  width:36px;
-  height:36px;
-  border-radius:999px;
-  background: linear-gradient(180deg, rgba(15,23,42,0.06), rgba(15,23,42,0.02));
-  color: #111827;
-  display:inline-grid;
-  place-items:center;
-  font-weight:700;
-  font-size:0.85rem;
+.credit-list-compact{
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.contrib-meta{
-  display:flex;
-  flex-direction:column;
+.credit-list-item{
+  padding: 0.45rem 0;
+  color: var(--muted);
+  border-bottom: 1px dashed var(--divider);
 }
+
+.credit-list-item:last-child{ border-bottom: none; }
 
 .credit-link{
   color: var(--accent);
   text-decoration: none;
-  font-weight:600;
+  font-weight: 600;
 }
 
 .credit-link:hover{ text-decoration: underline; }
 
-.credit-name{ color: #111827; font-weight:600; }
+.credit-aside{ padding: 0.2rem 0 0.6rem 0; }
 
-/* sidebar sticky card tweaks */
-.credit-aside{ padding:1rem; }
-
-/* responsive: make items full width on small screens */
 @media (max-width:640px){
-  .contrib-item{ min-width: 100%; }
+  .simple-list-item{ width: 100%; }
 }

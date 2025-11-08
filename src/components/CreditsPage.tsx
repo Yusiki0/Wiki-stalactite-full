@@ -44,22 +44,14 @@ const CreditListRenderer = ({ items }: { items: string[] }) => {
     return <span className="credit-name">{name}</span>;
   };
 
-  const initials = (name: string) => {
-    const parts = name.split(/\s+/).filter(Boolean);
-    if (parts.length === 0) return '';
-    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-    return (parts[0][0] + parts[1][0]).toUpperCase();
-  };
-
   return (
-    <div className="contrib-list">
+    <ul className="credit-list-compact">
       {allNames.map((name, index) => (
-        <div className="contrib-item" key={`${name}-${index}`}>
-          <span className="avatar" aria-hidden="true">{initials(name)}</span>
-          <span className="contrib-meta">{renderName(name)}</span>
-        </div>
+        <li className="credit-list-item" key={`${name}-${index}`}>
+          {renderName(name)}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
@@ -81,14 +73,15 @@ export default function CreditsPage() {
         {/* Section principale des crédits */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           {credits.map((group) => (
-            <article key={group.titleKey} className="credit-card">
-              <div className="credit-header">
-                <span className="title-icon">★</span>
-                <h2 className="credit-title">
-                  {intl.formatMessage({ id: group.titleKey })}
-                </h2>
-              </div>
-              <CreditListRenderer items={group.items} />
+            <article key={group.titleKey} className="credit-section">
+              <h2 className="credit-title">
+                {intl.formatMessage({ id: group.titleKey })}
+              </h2>
+              <ul className="simple-list">
+                {group.items.map((i) => (
+                  <li key={i} className="simple-list-item">{i}</li>
+                ))}
+              </ul>
             </article>
           ))}
         </section>
@@ -100,44 +93,49 @@ export default function CreditsPage() {
               <h3 className="text-xl font-semibold mb-4">
                 {intl.formatMessage({ id: 'credits.resourcesTitle' })}
               </h3>
-              <CreditListRenderer items={ressourcesGraphiques} />
+              <section className="credit-section">
+                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.resourcesTitle' })}</h3>
+                <CreditListRenderer items={ressourcesGraphiques} />
+              </section>
             </div>
 
             <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
               <h3 className="text-xl font-semibold mb-4">
                 {intl.formatMessage({ id: 'credits.musicTitle' })}
               </h3>
-              <CreditListRenderer items={music} />
+              <section className="credit-section">
+                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.musicTitle' })}</h3>
+                <CreditListRenderer items={music} />
+              </section>
             </div>
 
             <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
               <h3 className="text-xl font-semibold mb-4">
                 {intl.formatMessage({ id: 'credits.animatedTitle' })}
               </h3>
-              <CreditListRenderer items={animatedSprites} />
+              <section className="credit-section">
+                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.animatedTitle' })}</h3>
+                <CreditListRenderer items={animatedSprites} />
+              </section>
             </div>
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-6">
-            <div className="sticky top-24 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-              <h4 className="text-lg font-semibold mb-3">
-                {intl.formatMessage({ id: 'credits.pluginContribs' })}
-              </h4>
-              <div className="h-64 overflow-auto text-sm">
-                <CreditListRenderer items={spanishPluginContribs} />
-              </div>
-            </div>
+            <aside className="">
+              <section className="sticky top-24 credit-section credit-aside">
+                <h4 className="credit-title">{intl.formatMessage({ id: 'credits.pluginContribs' })}</h4>
+                <div className="h-64 overflow-auto text-sm">
+                  <CreditListRenderer items={spanishPluginContribs} />
+                </div>
+              </section>
 
-            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-              <h4 className="text-lg font-semibold mb-2">
-                {intl.formatMessage({ id: 'credits.specialThanks' })}
-              </h4>
-              <p className="text-sm text-slate-700">
-                {intl.formatMessage({ id: 'credits.contactNote' })}
-              </p>
-            </div>
-          </aside>
+              <section className="credit-section">
+                <h4 className="credit-title">{intl.formatMessage({ id: 'credits.specialThanks' })}</h4>
+                <p className="text-sm text-slate-700">
+                  {intl.formatMessage({ id: 'credits.contactNote' })}
+                </p>
+              </section>
+            </aside>
         </section>
 
         <footer className="mt-16 text-center text-sm text-slate-500">
