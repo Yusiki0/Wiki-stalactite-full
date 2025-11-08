@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -15,6 +15,20 @@ import CreditsPage from './components/CreditsPage';
 import './styles/animations.css';
 
 function Home() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Si un hash est présent dans l'URL, scroller vers l'élément correspondant
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      // petit délai pour s'assurer que les sections sont rendues
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    }
+  }, [location.hash]);
+
   return (
     <main>
       <Hero />

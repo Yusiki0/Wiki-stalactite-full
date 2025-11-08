@@ -20,48 +20,56 @@ const messages = {
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [locale, setLocale] = useState<Locale>(() => 'fr');
 
-  // On mount: determine locale from path (/fr or /en), localStorage, or navigator.
-  useEffect(() => {
-    const pathLocale = location.pathname.split('/')[1];
+  // Initialize locale synchronously to avoid flicker and to respect saved selection.
+  const [locale, setLocale] = useState<Locale>(() => {
+    try {
+      const pathLocale = window.location.pathname.split('/')[1];
+      if (pathLocale === 'fr' || pathLocale === 'en') return pathLocale as Locale;
 
-    // If path contains a locale, use it
-    if (pathLocale === 'fr' || pathLocale === 'en') {
-      setLocale(pathLocale as Locale);
-      return;
+      const saved = window.localStorage.getItem('site-locale');
+      if (saved === 'fr' || saved === 'en') return saved as Locale;
+
+      const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'fr';
+      return navLang.toLowerCase().startsWith('en') ? 'en' : 'fr';
+    } catch (e) {
+      return 'fr';
     }
+  });
 
-    // If user previously selected a locale, use it
-    const saved = window.localStorage.getItem('site-locale');
-    if (saved === 'fr' || saved === 'en') {
-      const savedLocale = saved as Locale;
-      setLocale(savedLocale);
-      // ensure URL contains the locale prefix
-      if (location.pathname === '/' || !location.pathname.startsWith(`/${savedLocale}`)) {
-        navigate(`/${savedLocale}${location.pathname}`);
+  // Ensure URL contains the locale prefix when missing or incorrect.
+  useEffect(() => {
+    const pathname = location.pathname;
+    const currentPrefix = pathname.split('/')[1];
+
+    // If path already has valid prefix, respect it and sync state if different
+    if (currentPrefix === 'fr' || currentPrefix === 'en') {
+      if (currentPrefix !== locale) {
+        // sync state with URL (user visited a localized URL)
+        setLocale(currentPrefix as Locale);
+        window.localStorage.setItem('site-locale', currentPrefix);
       }
       return;
     }
 
-    // Otherwise detect from browser
-    const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'fr';
-    const detected: Locale = navLang.toLowerCase().startsWith('en') ? 'en' : 'fr';
-    setLocale(detected);
-    if (location.pathname === '/' || !location.pathname.startsWith(`/${detected}`)) {
-      navigate(`/${detected}${location.pathname}`);
-    }
-  // We only want to run this on first mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Otherwise, redirect to the selected locale prefix (replace to avoid history spam)
+    const cleanPath = pathname.replace(/^\/(fr|en)/, '');
+    navigate(`/${locale}${cleanPath === '/' ? '' : cleanPath}`, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSetLocale = (newLocale: Locale) => {
     setLocale(newLocale);
-    window.localStorage.setItem('site-locale', newLocale);
+    try {
+      window.localStorage.setItem('site-locale', newLocale);
+    } catch (e) {
+      // ignore storage errors
+    }
+
     const currentPath = location.pathname;
     // remove existing /fr or /en prefix
-    const pathWithoutLocale = currentPath.replace(/^\/(fr|en)/, '');
-    const newPath = `/${newLocale}${pathWithoutLocale}` || `/${newLocale}`;
+    const pathWithoutLocale = currentPath.replace(/^\/(fr|en)/, '') || '/';
+    const newPath = `/${newLocale}${pathWithoutLocale}`;
     navigate(newPath);
   };
 

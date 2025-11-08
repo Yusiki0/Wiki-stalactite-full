@@ -33,41 +33,15 @@ export const Header = ({ scrolled }: HeaderProps) => {
     const href = e.currentTarget.getAttribute('href');
     if (!href) return;
 
-    // Toujours prévenir le comportement par défaut
     e.preventDefault();
 
-    // Si href contient un '#', extraire path et hash
+    // Séparer path et hash (si présent)
     const [pathPart, hashPart] = href.split('#');
 
-    // Vérifier si nous sommes sur une page différente
-    const currentPath = window.location.pathname;
-    const isOnDifferentPage = pathPart && currentPath !== pathPart;
-
-    if (isOnDifferentPage) {
-      // Si on est sur une page différente, d'abord naviguer vers la page principale
-      navigate(pathPart);
-      
-      // Puis scroller vers la section après un délai pour laisser la page se charger
-      if (hashPart) {
-        setTimeout(() => {
-          const el = document.getElementById(hashPart);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 100); // Délai légèrement plus long pour assurer le chargement complet
-      }
-    } else {
-      // Si on est déjà sur la bonne page
-      if (hashPart) {
-        const el = document.getElementById(hashPart);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }
-      } else {
-        // Si pas de hash, juste naviguer vers le path
-        navigate(pathPart);
-      }
-    }
+    // Naviguer vers la route en incluant le hash dans l'URL ;
+    // la page (Home) se chargera et scrollera vers l'élément via l'effet dans App/Home.
+    const target = `${pathPart}${hashPart ? `#${hashPart}` : ''}`;
+    navigate(target);
 
     setMobileMenuOpen(false);
   };

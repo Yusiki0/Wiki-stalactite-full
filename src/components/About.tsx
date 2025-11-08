@@ -21,7 +21,7 @@ export const About = () => {
                 values={{
                   link: (
                     <a href="https://pokemonworkshop.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
-                      PSDK et Pokémon Studio
+                      PSDK & Pokémon Studio
                     </a>
                   ),
                 }}
