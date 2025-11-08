@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import '../styles/credits.css';
 
 type CreditGroup = {
   titleKey: string;
@@ -72,8 +73,46 @@ export default function CreditsPage() {
             {intl.formatMessage({ id: 'credits.headerDesc' })}
           </p>
         </header>
+        {/* Featured cards: IA, Creator, Main Supporter */}
+        <section className="featured-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <article className="credit-card ia-card p-6">
+            <div className="credit-top">
+              <div className="credit-avatar">🤖</div>
+              <div>
+                <h3 className="credit-title">{intl.formatMessage({ id: 'credits.aiTitle', defaultMessage: 'IA' })}</h3>
+                <p className="credit-sub">{intl.formatMessage({ id: 'credits.aiDesc', defaultMessage: "Assistance à la rédaction, traduction et génération de contenu." })}</p>
+              </div>
+            </div>
+            <div className="credit-body">
+              <p className="text-sm text-slate-700">
+                {intl.formatMessage({ id: 'credits.aiNote', defaultMessage: "Ce bloc représente l'assistance automatique (IA) utilisée pour accélérer la rédaction, la traduction et la mise en forme des contenus de ce site." })}
+              </p>
+              <div className="credit-tags">
+                <span className="tag">{intl.formatMessage({ id: 'credits.tag.translation', defaultMessage: 'Traduction' })}</span>
+                <span className="tag">{intl.formatMessage({ id: 'credits.tag.generation', defaultMessage: 'Génération' })}</span>
+                <span className="tag">{intl.formatMessage({ id: 'credits.tag.review', defaultMessage: 'Révision' })}</span>
+              </div>
+            </div>
+          </article>
 
-        {/* Section principale des crédits */}
+          <article className="credit-card p-6">
+            <h3 className="credit-title">{intl.formatMessage({ id: 'credits.creator', defaultMessage: 'Créateur' })}</h3>
+            <p className="credit-sub">Yusiki</p>
+            <div className="credit-body">
+              <p className="text-sm text-slate-700">{intl.formatMessage({ id: 'credits.creatorNote', defaultMessage: "Conception, direction et coordination du projet." })}</p>
+            </div>
+          </article>
+
+          <article className="credit-card p-6">
+            <h3 className="credit-title">{intl.formatMessage({ id: 'credits.mainSupporter', defaultMessage: 'Support principal' })}</h3>
+            <p className="credit-sub">Pokémon Workshop</p>
+            <div className="credit-body">
+              <p className="text-sm text-slate-700">{intl.formatMessage({ id: 'credits.supporterNote', defaultMessage: 'Contributions et ressources fournies par la communauté.' })}</p>
+            </div>
+          </article>
+        </section>
+
+        {/* Section principale des crédits (groupes détaillés) */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           {credits.map((group) => (
             <article key={group.titleKey} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
