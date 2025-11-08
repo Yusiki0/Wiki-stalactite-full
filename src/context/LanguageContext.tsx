@@ -21,17 +21,33 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Initialize locale synchronously to avoid flicker and to respect saved selection.
+  // Helper: detect preferred locale from navigator languages
+  const detectFromNavigator = (): Locale => {
+    try {
+      const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+      for (const l of langs) {
+        if (!l) continue;
+        const code = l.toLowerCase();
+        if (code.startsWith('fr')) return 'fr';
+        if (code.startsWith('en')) return 'en';
+      }
+    } catch (e) {
+      // ignore
+    }
+    return 'fr';
+  };
+
+  // Initialize locale synchronously (path > localStorage > navigator > fallback)
   const [locale, setLocale] = useState<Locale>(() => {
     try {
-      const pathLocale = window.location.pathname.split('/')[1];
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      const pathLocale = segments[0];
       if (pathLocale === 'fr' || pathLocale === 'en') return pathLocale as Locale;
 
       const saved = window.localStorage.getItem('site-locale');
       if (saved === 'fr' || saved === 'en') return saved as Locale;
 
-      const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'fr';
-      return navLang.toLowerCase().startsWith('en') ? 'en' : 'fr';
+      return detectFromNavigator();
     } catch (e) {
       return 'fr';
     }
@@ -40,25 +56,29 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Ensure URL contains the locale prefix when missing or incorrect.
   useEffect(() => {
     const pathname = location.pathname;
-    const currentPrefix = pathname.split('/')[1];
+    const segments = pathname.split('/').filter(Boolean);
+    const pathLocale = segments[0];
 
-    // If path already has valid prefix, respect it and sync state if different
-    if (currentPrefix === 'fr' || currentPrefix === 'en') {
-      if (currentPrefix !== locale) {
-        // sync state with URL (user visited a localized URL)
-        setLocale(currentPrefix as Locale);
-        window.localStorage.setItem('site-locale', currentPrefix);
+    // If URL has a valid locale prefix, sync state (but don't navigate)
+    if (pathLocale === 'fr' || pathLocale === 'en') {
+      if (pathLocale !== locale) {
+        setLocale(pathLocale as Locale);
+        try {
+          window.localStorage.setItem('site-locale', pathLocale);
+        } catch (e) {
+          // ignore
+        }
       }
       return;
     }
 
-    // Otherwise, redirect to the selected locale prefix (replace to avoid history spam)
-    const cleanPath = pathname.replace(/^\/(fr|en)/, '');
-    navigate(`/${locale}${cleanPath === '/' ? '' : cleanPath}`, { replace: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // No locale in URL: redirect to the chosen locale while preserving the path (use replace)
+    const cleanPath = pathname === '/' ? '' : pathname;
+    navigate(`/${locale}${cleanPath}`, { replace: true });
+  }, [location.pathname, locale, navigate]);
 
   const handleSetLocale = (newLocale: Locale) => {
+    if (newLocale === locale) return;
     setLocale(newLocale);
     try {
       window.localStorage.setItem('site-locale', newLocale);
@@ -66,11 +86,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       // ignore storage errors
     }
 
-    const currentPath = location.pathname;
-    // remove existing /fr or /en prefix
-    const pathWithoutLocale = currentPath.replace(/^\/(fr|en)/, '') || '/';
-    const newPath = `/${newLocale}${pathWithoutLocale}`;
-    navigate(newPath);
+    const segments = location.pathname.split('/').filter(Boolean);
+    // remove existing locale prefix if present
+    const rest = segments.slice(1).length ? '/' + segments.slice(1).join('/') : '';
+    const newPath = `/${newLocale}${rest}` || `/${newLocale}`;
+    navigate(newPath, { replace: true });
   };
 
   return (
