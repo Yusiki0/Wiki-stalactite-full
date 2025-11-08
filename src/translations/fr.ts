@@ -104,6 +104,8 @@ export default {
   'credits.pluginContribs': 'Contributors - Plugin espagnol',
   'credits.specialThanks': 'Remerciements spéciaux',
   'credits.contactNote': 'Si vous voyez un oubli ou souhaitez que votre pseudo soit modifié, contactez l\'équipe de développement.',
+  'credits.readMore': 'Lire la suite',
+  'credits.showLess': 'Voir moins',
   'credits.footerNote': "Pokémon et tout contenu officiel Pokémon sont la propriété de leurs détenteurs respectifs. Ce fangame est une œuvre de fans et n'est pas affilié à Nintendo, Game Freak ou The Pokémon Company.",
 
   // Footer / Rejoignez-nous

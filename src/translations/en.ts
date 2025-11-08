@@ -104,6 +104,8 @@ export default {
   'credits.pluginContribs': 'Contributors - Spanish plugin',
   'credits.specialThanks': 'Special Thanks',
   'credits.contactNote': 'If you notice any omissions or would like your username modified, please contact the development team.',
+  'credits.readMore': 'Read more',
+  'credits.showLess': 'Show less',
   'credits.footerNote': 'Pokémon and all official Pokémon content are the property of their respective owners. This fangame is a fan work and is not affiliated with Nintendo, Game Freak or The Pokémon Company.',
 
   // Footer / Join us

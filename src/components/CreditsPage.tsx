@@ -1,4 +1,5 @@
 import { useIntl } from 'react-intl';
+import { useState } from 'react';
 import '../styles/credits.css';
 
 type CreditGroup = {
@@ -55,6 +56,33 @@ const CreditListRenderer = ({ items }: { items: string[] }) => {
   );
 };
 
+const ExpandableCreditList = ({ items, previewCount = 6 }: { items: string[]; previewCount?: number }) => {
+  const intl = useIntl();
+  const [open, setOpen] = useState(false);
+  const all = items.flatMap((item) => item.split(/\s*\|\|\s*/));
+  const preview = all.slice(0, previewCount);
+
+  return (
+    <div>
+      <ul className="credit-list-compact">
+        {(open ? all : preview).map((name, idx) => (
+          <li className="credit-list-item" key={`${name}-${idx}`}>{name}</li>
+        ))}
+      </ul>
+
+      {all.length > previewCount && (
+        <button
+          className="read-more-toggle"
+          onClick={() => setOpen((s) => !s)}
+          aria-expanded={open}
+        >
+          {open ? intl.formatMessage({ id: 'credits.showLess' }) : intl.formatMessage({ id: 'credits.readMore' })}
+        </button>
+      )}
+    </div>
+  );
+};
+
 export default function CreditsPage() {
   const intl = useIntl();
 
@@ -95,7 +123,7 @@ export default function CreditsPage() {
               </h3>
               <section className="credit-section">
                 <h3 className="credit-title">{intl.formatMessage({ id: 'credits.resourcesTitle' })}</h3>
-                <CreditListRenderer items={ressourcesGraphiques} />
+                <ExpandableCreditList items={ressourcesGraphiques} previewCount={6} />
               </section>
             </div>
 
@@ -121,11 +149,11 @@ export default function CreditsPage() {
           </div>
 
           {/* Sidebar */}
-            <aside className="">
-              <section className="sticky top-24 credit-section credit-aside">
+            <aside className="aside-container">
+            <section className="sticky top-24 credit-section credit-aside">
                 <h4 className="credit-title">{intl.formatMessage({ id: 'credits.pluginContribs' })}</h4>
                 <div className="h-64 overflow-auto text-sm">
-                  <CreditListRenderer items={spanishPluginContribs} />
+                  <ExpandableCreditList items={spanishPluginContribs} previewCount={8} />
                 </div>
               </section>
 
