@@ -7,27 +7,23 @@ export const LanguageSelector = () => {
   const { locale, setLocale } = useLanguage();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="language-selector" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
       <button
         aria-label="Français"
         title="Français"
-        className={`p-1 rounded ${
-          locale === 'fr' ? 'bg-blue-600' : 'bg-transparent hover:bg-slate-100'
-        }`}
+        className={`lang-btn ${locale === 'fr' ? 'active' : ''}`}
         onClick={() => setLocale('fr')}
       >
-        <img src={FlagFR} alt="FR" className="w-6 h-4 block" />
+        <img src={FlagFR} alt="FR" className="flag-img" />
       </button>
 
       <button
         aria-label="English"
         title="English"
-        className={`p-1 rounded ${
-          locale === 'en' ? 'bg-blue-600' : 'bg-transparent hover:bg-slate-100'
-        }`}
+        className={`lang-btn ${locale === 'en' ? 'active' : ''}`}
         onClick={() => setLocale('en')}
       >
-        <img src={FlagEN} alt="EN" className="w-6 h-4 block" />
+        <img src={FlagEN} alt="EN" className="flag-img" />
       </button>
     </div>
   );
