@@ -12,10 +12,20 @@ export const Hero = () => {
   const handleDiscover = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const href = `${baseUrl}#apropos`;
-    const [path, hash] = href.split('#');
-    navigate(path);
+    const [pathPart, hashPart] = href.split('#');
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+    const normalizedTargetPath = (pathPart || '/').replace(/\/$/, '');
+
+    if (normalizedTargetPath !== currentPath) {
+      // force full reload to ensure Home sections are mounted
+      window.location.href = href;
+      return;
+    }
+
+    // same page: SPA navigate + scroll
+    navigate(`${pathPart}${hashPart ? `#${hashPart}` : ''}`);
     setTimeout(() => {
-      const el = document.getElementById(hash);
+      const el = document.getElementById(hashPart);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }, 80);
   };

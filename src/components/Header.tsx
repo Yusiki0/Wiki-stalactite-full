@@ -41,7 +41,23 @@ export const Header = ({ scrolled }: HeaderProps) => {
     // Naviguer vers la route en incluant le hash dans l'URL ;
     // la page (Home) se chargera et scrollera vers l'élément via l'effet dans App/Home.
     const target = `${pathPart}${hashPart ? `#${hashPart}` : ''}`;
-    navigate(target);
+
+    // If we're coming from a different pathname, do a full reload so the page is rendered fresh.
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+    const normalizedTargetPath = (pathPart || '/').replace(/\/$/, '');
+
+    try {
+      if (normalizedTargetPath !== currentPath) {
+        // Full page navigation to ensure the Home page and sections are fully mounted.
+        window.location.href = target;
+      } else {
+        // Same page: use SPA navigation so React Router handles hash change and our effect will scroll.
+        navigate(target);
+      }
+    } catch (e) {
+      // Fallback to SPA navigate
+      navigate(target);
+    }
 
     setMobileMenuOpen(false);
   };
